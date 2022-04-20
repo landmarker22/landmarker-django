@@ -23,6 +23,7 @@ urlpatterns = [
     path('landmarker/main.do', home.main, name='main'),
     path('landmarker/error404.do', home.error404, name='error404'),
     path('landmarker/about.do', home.about, name='about'),
+    path('landmarker/gallery.do', home.gallery, name='gallery'),
     path('landmarker/contact.do', home.contact, name='contact'),
     path('landmarker/propertyAgent.do', home.propertyAgent, name='propertyAgent'),
     path('landmarker/propertyList.do', home.propertyList, name='propertyList'),

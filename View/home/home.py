@@ -41,6 +41,15 @@ def about(request):
     }
     return render(request, 'common/about.html', context)
 
+def gallery(request):
+    context = {
+        'head': 'parts/head.html',
+        'navi': 'parts/navi.html',
+        'foot': 'parts/foot.html',
+        'footer': 'parts/footer.html',
+    }
+    return render(request, 'common/gallery.html', context)
+
 
 def contact(request):
     context = {
