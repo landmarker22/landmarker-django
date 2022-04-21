@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from View.gallery import gallery
 from View.home import home
 from View.photoSearch.photoSearchView import photoSearchView, photoSearch_result
 
@@ -25,6 +26,7 @@ urlpatterns = [
     path('landmarker/error404.do', home.error404, name='error404'),
     path('landmarker/about.do', home.about, name='about'),
     path('landmarker/gallery.do', home.gallery, name='gallery'),
+    path('landmarker/gdetail.do', gallery.gdetail, name='gdetail'),
     path('landmarker/contact.do', home.contact, name='contact'),
     path('landmarker/propertyAgent.do', home.propertyAgent, name='propertyAgent'),
     path('landmarker/propertyList.do', home.propertyList, name='propertyList'),
