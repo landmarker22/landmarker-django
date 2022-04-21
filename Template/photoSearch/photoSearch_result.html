@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.bubble
+{
+display: none;
+position: relative;
+width: 255px;
+height: 40px;
+padding: 0px;
+background: #FFFFFF;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
+border: #00B98E solid 4px;
+}
+
+.bubble:after
+{
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 0 20px 20px;
+border-color: #FFFFFF transparent;
+display: block;
+width: 0;
+z-index: 1;
+top: -20px;
+left: 202px;
+}
+
+.bubble:before
+{
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 0 23px 23px;
+border-color: #00B98E transparent;
+display: block;
+width: 0;
+z-index: 0;
+top: -27px;
+left: 199px;
+}
+a:hover + p.bubble {
+  display: block;
+}
+</style>
+<body>
+        <!-- Contact Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                    <h4 style="display:inline" class="mb-3">해당장소는</h4>
+                    <h1 style="display:inline" class="m-0 text-primary">{{placeName}}</h1>
+                    <h4 style="display:inline" class="mb-3">입니다!</h4>
+                </div>
+
+                <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e767e4f84d36371c93bbda34a8b90402&libraries=services,clusterer,drawing"></script>
+
+<div id="map" style="width:100%;height:500px;"></div>
+
+<script>
+// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+    mapOption = {
+        center: new kakao.maps.LatLng(33.450001, 126.570467), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };
+// 지도를 생성합니다
+var map = new kakao.maps.Map(mapContainer, mapOption);
+
+// 장소 검색 객체를 생성합니다
+var ps = new kakao.maps.services.Places();
+
+// 키워드로 장소를 검색합니다
+ps.keywordSearch('{{placeName}}', placesSearchCB);
+
+// 키워드 검색 완료 시 호출되는 콜백함수 입니다
+function placesSearchCB (data, status) {
+    if (status === kakao.maps.services.Status.OK) {
+
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+        // LatLngBounds 객체에 좌표를 추가합니다
+        var bounds = new kakao.maps.LatLngBounds();
+
+        for (var i=0; i<data.length; i++) {
+            displayMarker(data[0]); //인덱스 설정 : 첫번째 이름만 표시 해줌
+            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+        }
+
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+        map.setBounds(bounds);
+    }
+}
+
+// 지도에 마커를 표시하는 함수입니다
+function displayMarker(place) {
+
+    // 마커를 생성하고 지도에 표시합니다
+    var marker = new kakao.maps.Marker({
+        map: map,
+        position: new kakao.maps.LatLng(place.y, place.x)
+    });
+
+    // 마커에 클릭이벤트를 등록합니다
+    kakao.maps.event.addListener(marker, 'click', function() {
+        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+        infowindow.setContent(
+        '<div>'
+        + '<img width="200px;" height="200px;" src="'
+        + '{{imgname}}'
+        + '">'
+        + '</div>'
+        + '<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+        infowindow.open(map, marker);
+    });
+}
+</script>
+
+                <form method="post" action="photoSearch_result">
+                {% csrf_token %}
+                    <div align="center">
+                        <br>
+                        <input id="placeName" type="hidden" value="{{placeName}}" name="placeName">
+                        <input style="background-color:#FF8A93; border-color:#FF8A93;" class="btn btn-primary nav-item nav-link active" type="submit" value="잘못된 결과 신고하기">
+                    </div>
+                </form>
+                <div align="right">
+                    <a href="#" class="btn btn-lg btn-primary btn-lg-square">
+                        <i class="bi bi-chat-dots-fill"></i>
+                    </a>
+                    <p style="font-size:22px;" class="btn btn-primary bubble text-primary">클릭 시 챗봇 활성화!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
