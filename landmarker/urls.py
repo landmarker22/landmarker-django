@@ -16,16 +16,25 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from View.gallery import gallery
 from View.home import home
+from View.photoSearch.photoSearchView import photoSearchView, photoSearch_result
 
 urlpatterns = [
     path('landmarker/', home.home, name='home'),
     path('landmarker/main.do', home.main, name='main'),
     path('landmarker/error404.do', home.error404, name='error404'),
     path('landmarker/about.do', home.about, name='about'),
+    path('landmarker/gallery.do', home.gallery, name='gallery'),
+    path('landmarker/gdetail.do', gallery.gdetail, name='gdetail'),
     path('landmarker/contact.do', home.contact, name='contact'),
     path('landmarker/propertyAgent.do', home.propertyAgent, name='propertyAgent'),
     path('landmarker/propertyList.do', home.propertyList, name='propertyList'),
     path('landmarker/propertyType.do', home.propertyType, name='propertyType'),
     path('landmarker/testImonial.do', home.testImonial, name='testImonial'),
+
+    # 이미지 검색
+    path('landmarker/photoSearch.do', photoSearchView.photoSearch, name='photoSearch'),
+    path('landmarker/photoSearch_result.do', photoSearch_result.photoSearch_result, name='photoSearch_result'),
+
 ]
