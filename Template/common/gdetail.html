@@ -1,18 +1,29 @@
-<!-- header -->
-<div class="modal-header">
-    <!-- 닫기(x) 버튼 -->
-  <button type="button" class="close" data-dismiss="modal">×</button>
-  <!-- header title -->
-  <h4 class="modal-title">Header</h4>
+{% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<script src="../static/js/gallery.js"></script>
+
+<div class="modal_title">
+    <div class="modal_title_side"></div>
+    <div>{{data.g_no}}게시물</div>
+    <div class="modal_title_side">
+    <span id="close_modal" class="bi bi-x-lg" role="button">X
+    </span>
+    </div>
 </div>
-<!-- body -->
-<div class="modal-body">
-    Body
-</div>
-<!-- Footer -->
-<div class="modal-footer">
-    Footer
-  <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-</div>
+<div style="display: flex">
+    <div style="background-color: skyblue; width: 400px; height: 400px;">
+        <div class="border" style="background-color: white;width: 380px;margin: 10px; height: 380px">
+            <img class="img-fluid" src="../static/img/{{data.photopath}}" alt="">
+        </div>
+    </div>
+    <div style="background-color: yellow; width: 400px; height: 400px;">
+        <div class="p-3 pb-0" id="con">
 
 
+        </div>
+    </div>
+</div>
+<div>
+    밑에화면
+</div>
