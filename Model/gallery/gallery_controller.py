@@ -56,7 +56,7 @@ def select_one(g_no):
         # 행의 컬럼값들을 꺼내서 Gallery 인스턴스의 초기값으로 설정
         for row in result:
             print(type(row[6].strftime('%Y-%m-%d, %H:%M:%S')))
-            row_dict = {'g_no': row[1], 'u_no': row[0], 'content': row[2],
+            row_dict = {'g_no': row[0], 'u_no': row[1], 'content': row[2],
                         'photopath': row[3], 'hashtag': row[4], 'rcount': row[5],
                         'date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'u_name': row[8]}
             print('row_dict : ', row_dict)
