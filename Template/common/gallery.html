@@ -34,7 +34,6 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <!--		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />-->
 		<script src="../static/js/gallery.js"></script>
-
 		<style>
 			.modal_overlay {
 				width: 100%;
@@ -113,7 +112,7 @@
 	
 	
 	        <!-- Search Start -->
-	        <div class="container-fluid bg-primary mb-1 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+	        <div class="container-fluid bg-primary mb-1 wow fadeIn" data-wow-delay="0.1s" style="padding: 15px;">
 	            <div class="container">
 	                <div class="row g-1">
 	                    <div class="col-md-10">
@@ -176,14 +175,11 @@
 	                        <div class="row g-4">
 								{% for d in data %}
 
-	                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+	                            <div class="col-lg-4 col-md-6 wow fadeInUp detail1" data-id="{{d.g_no}}" data-wow-delay="0.1s">
 	                                <div class="property-item rounded overflow-hidden">
 	                                    <div class="position-relative overflow-hidden">
-											<a class="detail1" data-id="{{d.g_no}}" role="button">
-												{% csrf_token %}
-												<img class="img-fluid" src="../static/img/{{d.photopath}}" data-toggle="modal" data-target="#loginModal" data-id="{{d.g_no}}">
-											</a>
-	                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">{{d.hashtag}}</div>
+											<img class="img-fluid" src="../static/img/{{d.photopath}}" data-toggle="modal" data-target="#loginModal" data-id="{{d.g_no}}">
+	                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-2 py-1 px-3">{{d.hashtag}}</div>
 <!--											<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">-->
 <!--											  Launch demo modal-->
 <!--											</button>-->
@@ -204,153 +200,6 @@
 	                                </div>
 	                            </div>
 								{% endfor %}
-	                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-	                                <div class="property-item rounded overflow-hidden">
-	                                    <div class="position-relative overflow-hidden">
-	                                        <a class="detail1" id="{{d.g_no}}" role="button"><img class="img-fluid" src="../static/img/property-1.jpg" alt=""></a>
-	                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">#남산타워1</div>
-<!--	                                        <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Appartment</div>-->
-	                                    </div>
-	                                    <div class="p-3 pb-0">
-	                                        <h5 class="text-primary mb-2" style="float:left; margin:0px 10px 0px 0px;">Tester_ID</h5>
-											<h8 class="text-primary mb-3" style="float:left; margin:0px 10px 0px 0px;">여 행 중 독 자11111111</h8>
-											<i class="bi bi-heart fs-5" style="float:right;"></i>
-											<a><i class="bi bi-heart-fill fs-5" style="float:right; color:#e06666;"></i></a>
-<!--	                                        <p style="clear:both;"><i class="fa fa-map-marker-alt text-primary me-2"></i><a class="text-dark" href="">서울 용산구 남산공원길 105</a></p>-->
-	                                    </div>
-<!--	                                    <div class="d-flex border-top">-->
-<!--&lt;!&ndash;	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 Sqft</small>&ndash;&gt;-->
-<!--	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>-->
-<!--	                                        <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>-->
-<!--	                                    </div>-->
-	                                </div>
-	                            </div>
-	                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-	                                <div class="property-item rounded overflow-hidden">
-	                                    <div class="position-relative overflow-hidden">
-	                                        <a class="detail2" data-id="1" role="button"><img class="img-fluid" src="../static/img/property-1.jpg" alt=""></a>
-	                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">#남산타워2</div>
-<!--	                                        <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Appartment</div>-->
-	                                    </div>
-	                                    <div class="p-3 pb-0">
-	                                        <h5 class="text-primary mb-2" style="float:left; margin:0px 10px 0px 0px;">Tester_ID</h5>
-											<h8 class="text-primary mb-3" style="float:left; margin:0px 10px 0px 0px;">여 행 중 독 자</h8>
-											<i class="bi bi-heart fs-5" style="float:right;"></i>
-											<a><i class="bi bi-heart-fill fs-5" style="float:right; color:#e06666;"></i></a>
-<!--	                                        <p style="clear:both;"><i class="fa fa-map-marker-alt text-primary me-2"></i><a class="text-dark" href="">서울 용산구 남산공원길 105</a></p>-->
-	                                    </div>
-<!--	                                    <div class="d-flex border-top">-->
-<!--&lt;!&ndash;	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 Sqft</small>&ndash;&gt;-->
-<!--	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>-->
-<!--	                                        <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>-->
-<!--	                                    </div>-->
-	                                </div>
-	                            </div>
-	                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-	                                <div class="property-item rounded overflow-hidden">
-	                                    <div class="position-relative overflow-hidden">
-	                                        <a class="detail3" data-id="3" role="button"><img class="img-fluid" src="../static/img/property-1.jpg" alt=""></a>
-	                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">#남산타워3</div>
-<!--	                                        <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Appartment</div>-->
-	                                    </div>
-	                                    <div class="p-3 pb-0">
-	                                        <h5 class="text-primary mb-2" style="float:left; margin:0px 10px 0px 0px;">Tester_ID</h5>
-											<h8 class="text-primary mb-3" style="float:left; margin:0px 10px 0px 0px;">여 행 중 독 자</h8>
-											<i class="bi bi-heart fs-5" style="float:right;"></i>
-											<a><i class="bi bi-heart-fill fs-5" style="float:right; color:#e06666;"></i></a>
-<!--	                                        <p style="clear:both;"><i class="fa fa-map-marker-alt text-primary me-2"></i><a class="text-dark" href="">서울 용산구 남산공원길 105</a></p>-->
-	                                    </div>
-<!--	                                    <div class="d-flex border-top">-->
-<!--&lt;!&ndash;	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 Sqft</small>&ndash;&gt;-->
-<!--	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>-->
-<!--	                                        <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>-->
-<!--	                                    </div>-->
-	                                </div>
-	                            </div>
-	                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-	                                <div class="property-item rounded overflow-hidden">
-	                                    <div class="position-relative overflow-hidden">
-	                                        <a class="detail4" role="button"><img class="img-fluid" src="../static/img/property-1.jpg" alt=""></a>
-	                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">#남산타워4</div>
-<!--	                                        <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Appartment</div>-->
-	                                    </div>
-	                                    <div class="p-3 pb-0">
-	                                        <h5 class="text-primary mb-2" style="float:left; margin:0px 10px 0px 0px;">Tester_ID</h5>
-											<h8 class="text-primary mb-3" style="float:left; margin:0px 10px 0px 0px;">여 행 중 독 자</h8>
-											<i class="bi bi-heart fs-5" style="float:right;"></i>
-											<a><i class="bi bi-heart-fill fs-5" style="float:right; color:#e06666;"></i></a>
-<!--	                                        <p style="clear:both;"><i class="fa fa-map-marker-alt text-primary me-2"></i><a class="text-dark" href="">서울 용산구 남산공원길 105</a></p>-->
-	                                    </div>
-<!--	                                    <div class="d-flex border-top">-->
-<!--&lt;!&ndash;	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 Sqft</small>&ndash;&gt;-->
-<!--	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>-->
-<!--	                                        <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>-->
-<!--	                                    </div>-->
-	                                </div>
-	                            </div>
-								<div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-	                                <div class="property-item rounded overflow-hidden">
-	                                    <div class="position-relative overflow-hidden">
-	                                        <a class="detail" role="button"><img class="img-fluid" src="../static/img/property-1.jpg" alt=""></a>
-	                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">#남산타워</div>
-<!--	                                        <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Appartment</div>-->
-	                                    </div>
-	                                    <div class="p-3 pb-0">
-	                                        <h5 class="text-primary mb-2" style="float:left; margin:0px 10px 0px 0px;">Tester_ID</h5>
-											<h8 class="text-primary mb-3" style="float:left; margin:0px 10px 0px 0px;">여 행 중 독 자</h8>
-											<i class="bi bi-heart fs-5" style="float:right;"></i>
-											<a><i class="bi bi-heart-fill fs-5" style="float:right; color:#e06666;"></i></a>
-<!--	                                        <p style="clear:both;"><i class="fa fa-map-marker-alt text-primary me-2"></i><a class="text-dark" href="">서울 용산구 남산공원길 105</a></p>-->
-	                                    </div>
-<!--	                                    <div class="d-flex border-top">-->
-<!--&lt;!&ndash;	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 Sqft</small>&ndash;&gt;-->
-<!--	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>-->
-<!--	                                        <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>-->
-<!--	                                    </div>-->
-	                                </div>
-	                            </div>
-								<div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-	                                <div class="property-item rounded overflow-hidden">
-	                                    <div class="position-relative overflow-hidden">
-	                                        <a class="detail" role="button"><img class="img-fluid" src="../static/img/property-1.jpg" alt=""></a>
-	                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">#남산타워</div>
-<!--	                                        <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Appartment</div>-->
-	                                    </div>
-	                                    <div class="p-3 pb-0">
-	                                        <h5 class="text-primary mb-2" style="float:left; margin:0px 10px 0px 0px;">Tester_ID</h5>
-											<h8 class="text-primary mb-3" style="float:left; margin:0px 10px 0px 0px;">여 행 중 독 자</h8>
-											<i class="bi bi-heart fs-5" style="float:right;"></i>
-											<a><i class="bi bi-heart-fill fs-5" style="float:right; color:#e06666;"></i></a>
-<!--	                                        <p style="clear:both;"><i class="fa fa-map-marker-alt text-primary me-2"></i><a class="text-dark" href="">서울 용산구 남산공원길 105</a></p>-->
-	                                    </div>
-<!--	                                    <div class="d-flex border-top">-->
-<!--&lt;!&ndash;	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 Sqft</small>&ndash;&gt;-->
-<!--	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>-->
-<!--	                                        <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>-->
-<!--	                                    </div>-->
-	                                </div>
-	                            </div>
-								<div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-	                                <div class="property-item rounded overflow-hidden">
-	                                    <div class="position-relative overflow-hidden">
-	                                        <a class="detail" role="button"><img class="img-fluid" src="../static/img/property-1.jpg" alt=""></a>
-	                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">#남산타워</div>
-<!--	                                        <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Appartment</div>-->
-	                                    </div>
-	                                    <div class="p-3 pb-0">
-	                                        <h5 class="text-primary mb-2" style="float:left; margin:0px 10px 0px 0px;">Tester_ID</h5>
-											<h8 class="text-primary mb-3" style="float:left; margin:0px 10px 0px 0px;">여 행 중 독 자</h8>
-											<i class="bi bi-heart fs-5" style="float:right;"></i>
-											<a><i class="bi bi-heart-fill fs-5" style="float:right; color:#e06666;"></i></a>
-<!--	                                        <p style="clear:both;"><i class="fa fa-map-marker-alt text-primary me-2"></i><a class="text-dark" href="">서울 용산구 남산공원길 105</a></p>-->
-	                                    </div>
-<!--	                                    <div class="d-flex border-top">-->
-<!--&lt;!&ndash;	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 Sqft</small>&ndash;&gt;-->
-<!--	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>-->
-<!--	                                        <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>-->
-<!--	                                    </div>-->
-	                                </div>
-	                            </div>
 	                            <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
 	                                <a class="btn btn-primary py-2 px-4" href="">더보기</a>
 	                            </div>

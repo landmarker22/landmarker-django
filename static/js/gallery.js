@@ -1,61 +1,34 @@
-var isRun = false;
 $(function(){
     $(".detail1").click(function(){
         var g_no = $(this).attr('data-id');
-        console.log(g_no + isRun);
-        if(isRun == true) {
-            return;
-        }
-        isRun = true;
+        console.log(g_no);
         $.ajax({
-            async : false,
             url: 'gdetail.do',
             data:{'g_no': g_no},
             success: function(result){
-                isRun = false;
                 $('#con').html(result);
             }
         });
+        $("#navi").css('display', 'none');
         $("#detailModal").css('display', 'flex');
         $("#detailModal").css('top', window.pageYOffset + 'px');
         document.body.style.overflowY = "hidden";
     })
-})
 
-
-$(function(){
     $('#close_modal').click(function(){
         $("#detailModal").css('display', 'none');
+        $("#navi").css('display', 'block');
         document.body.style.overflowY = "visible";
+        $(".close_modal").unbind("click");
     })
 })
 
-$(function(){
-    $(".detail2").click(function(){
-        var g_no = $(this).attr('data-id');
-        console.log(g_no);
-        console.log('ㅠㅠ');
-        $.ajax({
-            url: 'gdetail.do',
-            type: 'post',
-            data: {'g_no': g_no},
-//            beforeSend: function () {
-//                $("#m").modal("show");
-//            },
-            success: function (data) {
-                alert(data);
-            }
-        });
-        $('#m').modal();
-        $('#m').modal({remote : 'common/gdetail.html'});
-
-    })
-
-    $(".detail3").click(function(){
-        var data = $(this).data('id');
-        console.log(data);
-        $("#contents.body-contents").val(data);
-        $("#text-contents.body-contents").html(data);
+function ajaxrun(g_no){
+    $.ajax({
+        url: 'gdetail.do',
+        data:{'g_no': g_no},
+        success: function(result){
+            $('#con').html(result);
+        }
     });
-})
-
+}

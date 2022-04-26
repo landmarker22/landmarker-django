@@ -1,8 +1,16 @@
 {% load static %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-<script src="../static/js/gallery.js"></script>
-
+<script type="text/javascript">
+$(function(){
+    $('#close_modal').click(function(){
+        $("#detailModal").css('display', 'none');
+        $("#navi").css('display', 'block');
+        document.body.style.overflowY = "visible";
+        $(".close_modal").unbind("click");
+    })
+})
+</script>
 <div class="modal_title">
     <div class="modal_title_side"></div>
     <div>{{data.g_no}}게시물</div>
