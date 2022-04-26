@@ -14,6 +14,7 @@ def oracle_init():  # 애플리케이션 구동시 딱 한번 실행되어야 �
 
 def connect():
     try:
+        print(cx_Oracle.connect(dbUSER, dbPASSWD, dbURL))
         return cx_Oracle.connect(dbUSER, dbPASSWD, dbURL)
     except Exception as msg:
         print('오라클 연동 관련 에러 발생 : ', msg)
