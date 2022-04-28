@@ -21,14 +21,9 @@ $(function(){
         document.body.style.overflowY = "visible";
         $(".close_modal").unbind("click");
     })
-})
 
-function ajaxrun(g_no){
-    $.ajax({
-        url: 'gdetail.do',
-        data:{'g_no': g_no},
-        success: function(result){
-            $('#con').html(result);
-        }
-    });
-}
+    $("#plus").click(function(){
+
+    })
+
+})
