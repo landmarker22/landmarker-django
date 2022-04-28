@@ -1,4 +1,5 @@
 {% load static %}
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <script type="text/javascript">
@@ -10,28 +11,49 @@ $(function(){
         $(".close_modal").unbind("click");
     })
 })
+
+$(document).on("click", function(e){
+    if( $("#detailModal").is(e.target)) {
+        $("#detailModal").css({ display:"none" });
+    }
+});
+
+alert(comment);
 </script>
+
 <div class="modal_title">
     <div class="modal_title_side"></div>
-    <div>{{data.g_no}}게시물</div>
-    <div class="modal_title_side">
-    <span id="close_modal" class="bi bi-x-lg" role="button">X
-    </span>
+<!--        <div>{{data.g_no}}게시물</div>-->
+    <div class="modal_title_side" role="button" id="close_modal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+          <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+        </svg>
     </div>
 </div>
-<div style="display: flex">
-    <div style="background-color: skyblue; width: 400px; height: 400px;">
-        <div class="border" style="background-color: white;width: 380px;margin: 10px; height: 380px">
-            <img class="img-fluid" src="../static/img/{{data.photopath}}" alt="">
+<div style="display: flex;">
+    <div style="width: 400px; height: 400px;">
+        <div class="border di position-relative overflow-hidden" style="width: 365px; margin: 11px; height: 365px;">
+            <img class="img-fluid" src="../static/img/{{g.photopath}}" style="width: 100%; height: 100%;">
+	        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-2 py-1 px-3">{{g.hashtag}}</div>
         </div>
     </div>
-    <div style="background-color: yellow; width: 400px; height: 400px;">
-        <div class="p-3 pb-0" id="con">
-
+    <div style="width: 400px; height: 400px;">
+        <div class="" style="width: 365px; margin: 11px; height: 365px;">
+            <div class="d-block h5 mb-2">{{g.gu_name}}</div>
 
         </div>
     </div>
 </div>
 <div>
-    밑에화면
+    {% for c in comment %}
+    <div></div>
+        <div id="cuser" style="float: left; margin: 20px;">
+            {{c.cu_name}}
+        </div>
+        <div id="comment">
+            {{c.content}}
+        </div>
+    </div>
+    {% endfor %}
 </div>

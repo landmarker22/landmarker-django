@@ -28,7 +28,8 @@ def gdetail(request):
     data = gcontroller.select_one(request.GET['g_no'])
     print('상세게시글 data : ', data)
     context = {
-        'data': data[0]
+        'g': data[0][0],
+        'comment': data[1]
     }
     # return HttpResponse(json.dumps(data), content_type='application/json')
     return render(request, 'common/gdetail.html', context)
