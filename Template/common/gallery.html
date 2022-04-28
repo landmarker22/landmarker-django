@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 	<head>
 	    <title>Makaan - Real Estate HTML Template</title>
@@ -28,6 +29,51 @@
 
 		<!-- Template Stylesheet -->
 		<link href="../static/css/style.css" rel="stylesheet">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<!--		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />-->
+		<script src="../static/js/gallery.js"></script>
+		<style>
+			.modal_overlay {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				left: 0;
+				top: 0;
+				display: none;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				background: rgba(0, 0, 0, 0.8);
+				backdrop-filter: blur(1.5px);
+				-webkit-backdrop-filter: blur(1.5px);
+			}
+
+			.modal_window {
+				background: white;
+				backdrop-filter: blur(13.5px);
+				-webkit-backdrop-filter: blur(13.5px);
+				border-radius: 10px;
+				border: 1px solid rgba(255, 255, 255, 0.18);
+				width: 800px;
+				height: 600px;
+				position: relative;
+				padding: 10px;
+			}
+			.modal_title{
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				font-weight: bold;
+				font-size: 20px;
+			}
+
+			.modal_title_side{
+				flex: 0 0 40px;
+				text-align: center;
+			}
+		</style>
 	</head>
 	<body>
 	    <div class="container-xxl bg-white p-0">
@@ -66,30 +112,30 @@
 	
 	
 	        <!-- Search Start -->
-	        <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+	        <div class="container-fluid bg-primary mb-1 wow fadeIn" data-wow-delay="0.1s" style="padding: 15px;">
 	            <div class="container">
-	                <div class="row g-2">
+	                <div class="row g-1">
 	                    <div class="col-md-10">
-	                        <div class="row g-2">
+	                        <div class="row g-1">
 	                            <div class="col-md-4">
 	                                <input type="text" class="form-control border-0 py-3" placeholder="검색할 랜드마크를 입력해주세요">
 	                            </div>
-	                            <div class="col-md-4">
-	                                <select class="form-select border-0 py-3">
-	                                    <option selected>Property Type</option>
-	                                    <option value="1">Property Type 1</option>
-	                                    <option value="2">Property Type 2</option>
-	                                    <option value="3">Property Type 3</option>
-	                                </select>
-	                            </div>
-	                            <div class="col-md-4">
-	                                <select class="form-select border-0 py-3">
-	                                    <option selected>Location</option>
-	                                    <option value="1">Location 1</option>
-	                                    <option value="2">Location 2</option>
-	                                    <option value="3">Location 3</option>
-	                                </select>
-	                            </div>
+<!--	                            <div class="col-md-4">-->
+<!--	                                <select class="form-select border-0 py-3">-->
+<!--	                                    <option selected>Property Type</option>-->
+<!--	                                    <option value="1">Property Type 1</option>-->
+<!--	                                    <option value="2">Property Type 2</option>-->
+<!--	                                    <option value="3">Property Type 3</option>-->
+<!--	                                </select>-->
+<!--	                            </div>-->
+<!--	                            <div class="col-md-4">-->
+<!--	                                <select class="form-select border-0 py-3">-->
+<!--	                                    <option selected>Location</option>-->
+<!--	                                    <option value="1">Location 1</option>-->
+<!--	                                    <option value="2">Location 2</option>-->
+<!--	                                    <option value="3">Location 3</option>-->
+<!--	                                </select>-->
+<!--	                            </div>-->
 	                        </div>
 	                    </div>
 	                    <div class="col-md-2">
@@ -100,19 +146,18 @@
 	        </div>
 	        <!-- Search End -->
 	
-	
-	        <!-- Property List Start -->
-	        <div class="container-xxl py-5">
+	        <!-- Gallery List Start -->
+	        <div class="container-xxl py-1">
 	            <div class="container">
 	                <div class="row g-0 gx-5 align-items-end">
 	                    <div class="col-lg-6">
-	                        <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
-	                            <h1 class="mb-3">Property Listing</h1>
-	                            <p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor ut dolore lorem kasd vero ipsum sit eirmod sit diam justo sed rebum.</p>
+	                        <div class="text-start mx-auto mb-1 wow slideInLeft" data-wow-delay="0.1s">
+<!--	                            <h1 class="mb-3">Property Listing</h1>-->
+<!--	                            <p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor ut dolore lorem kasd vero ipsum sit eirmod sit diam justo sed rebum.</p>-->
 	                        </div>
 	                    </div>
 	                    <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
-	                        <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
+	                        <ul class="nav nav-pills d-inline-flex justify-content-end mb-2">
 	                            <li class="nav-item me-2">
 	                                <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#tab-1">최근순</a>
 	                            </li>
@@ -128,15 +173,20 @@
 	                <div class="tab-content">
 	                    <div id="tab-1" class="tab-pane fade show p-0 active">
 	                        <div class="row g-4">
-	                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+								{% for d in data %}
+
+	                            <div class="col-lg-4 col-md-6 wow fadeInUp detail1" data-id="{{d.g_no}}" data-wow-delay="0.1s">
 	                                <div class="property-item rounded overflow-hidden">
 	                                    <div class="position-relative overflow-hidden">
-	                                        <a href=""><img class="img-fluid" src="../static/img/property-1.jpg" alt=""></a>
-	                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">#남산타워</div>
+											<img class="img-fluid" src="../static/img/{{d.photopath}}" data-toggle="modal" data-target="#loginModal" data-id="{{d.g_no}}">
+	                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-2 py-1 px-3">{{d.hashtag}}</div>
+<!--											<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">-->
+<!--											  Launch demo modal-->
+<!--											</button>-->
 <!--	                                        <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Appartment</div>-->
 	                                    </div>
 	                                    <div class="p-3 pb-0">
-	                                        <h5 class="text-primary mb-2" style="float:left; margin:0px 10px 0px 0px;">Tester_ID</h5>
+	                                        <h5 class="text-primary mb-2" style="float:left; margin:0px 10px 0px 0px;">{{d.u_name}}</h5>
 											<h8 class="text-primary mb-3" style="float:left; margin:0px 10px 0px 0px;">여 행 중 독 자</h8>
 											<i class="bi bi-heart fs-5" style="float:right;"></i>
 											<a><i class="bi bi-heart-fill fs-5" style="float:right; color:#e06666;"></i></a>
@@ -149,103 +199,9 @@
 <!--	                                    </div>-->
 	                                </div>
 	                            </div>
-	                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-	                                <div class="property-item rounded overflow-hidden">
-	                                    <div class="position-relative overflow-hidden">
-	                                        <a href=""><img class="img-fluid" src="../static/img/property-2.jpg" alt=""></a>
-	                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">For Rent</div>
-	                                        <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Villa</div>
-	                                    </div>
-	                                    <div class="p-4 pb-0">
-	                                        <h5 class="text-primary mb-3">$12,345</h5>
-	                                        <a class="d-block h5 mb-2" href="">Golden Urban House For Sell</a>
-	                                        <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
-	                                    </div>
-	                                    <div class="d-flex border-top">
-	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 Sqft</small>
-	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>
-	                                        <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-	                                <div class="property-item rounded overflow-hidden">
-	                                    <div class="position-relative overflow-hidden">
-	                                        <a href=""><img class="img-fluid" src="../static/img/property-3.jpg" alt=""></a>
-	                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">For Sell</div>
-	                                        <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Office</div>
-	                                    </div>
-	                                    <div class="p-4 pb-0">
-	                                        <h5 class="text-primary mb-3">$12,345</h5>
-	                                        <a class="d-block h5 mb-2" href="">Golden Urban House For Sell</a>
-	                                        <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
-	                                    </div>
-	                                    <div class="d-flex border-top">
-	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 Sqft</small>
-	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>
-	                                        <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-	                                <div class="property-item rounded overflow-hidden">
-	                                    <div class="position-relative overflow-hidden">
-	                                        <a href=""><img class="img-fluid" src="../static/img/property-4.jpg" alt=""></a>
-	                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">For Rent</div>
-	                                        <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Building</div>
-	                                    </div>
-	                                    <div class="p-4 pb-0">
-	                                        <h5 class="text-primary mb-3">$12,345</h5>
-	                                        <a class="d-block h5 mb-2" href="">Golden Urban House For Sell</a>
-	                                        <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
-	                                    </div>
-	                                    <div class="d-flex border-top">
-	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 Sqft</small>
-	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>
-	                                        <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-	                                <div class="property-item rounded overflow-hidden">
-	                                    <div class="position-relative overflow-hidden">
-	                                        <a href=""><img class="img-fluid" src="../static/img/property-5.jpg" alt=""></a>
-	                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">For Sell</div>
-	                                        <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Home</div>
-	                                    </div>
-	                                    <div class="p-4 pb-0">
-	                                        <h5 class="text-primary mb-3">$12,345</h5>
-	                                        <a class="d-block h5 mb-2" href="">Golden Urban House For Sell</a>
-	                                        <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
-	                                    </div>
-	                                    <div class="d-flex border-top">
-	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 Sqft</small>
-	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>
-	                                        <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-	                                <div class="property-item rounded overflow-hidden">
-	                                    <div class="position-relative overflow-hidden">
-	                                        <a href=""><img class="img-fluid" src="../static/img/property-6.jpg" alt=""></a>
-	                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">For Rent</div>
-	                                        <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Shop</div>
-	                                    </div>
-	                                    <div class="p-4 pb-0">
-	                                        <h5 class="text-primary mb-3">$12,345</h5>
-	                                        <a class="d-block h5 mb-2" href="">Golden Urban House For Sell</a>
-	                                        <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
-	                                    </div>
-	                                    <div class="d-flex border-top">
-	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 Sqft</small>
-	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>
-	                                        <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>
-	                                    </div>
-	                                </div>
-	                            </div>
+								{% endfor %}
 	                            <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
-	                                <a class="btn btn-primary py-3 px-5" href="">Browse More Property</a>
+	                                <a class="btn btn-primary py-2 px-4" href="">더보기</a>
 	                            </div>
 	                        </div>
 	                    </div>
@@ -487,7 +443,7 @@
 	                                </div>
 	                            </div>
 	                            <div class="col-12 text-center">
-	                                <a class="btn btn-primary py-3 px-5" href="">Browse More Property</a>
+	                                <a class="btn btn-primary py-3 px-5" href="">Browse More Propertyㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</a>
 	                            </div>
 	                        </div>
 	                    </div>
@@ -498,31 +454,31 @@
 	
 	
 	        <!-- Call to Action Start -->
-	        <div class="container-xxl py-5">
-	            <div class="container">
-	                <div class="bg-light rounded p-3">
-	                    <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
-	                        <div class="row g-5 align-items-center">
-	                            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-	                                <img class="img-fluid rounded w-100" src="../static/img/call-to-action.jpg" alt="">
-	                            </div>
-	                            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-	                                <div class="mb-4">
-	                                    <h1 class="mb-3">Contact With Our Certified Agent</h1>
-	                                    <p>Eirmod sed ipsum dolor sit rebum magna erat. Tempor lorem kasd vero ipsum sit sit diam justo sed vero dolor duo.</p>
-	                                </div>
-	                                <a href="" class="btn btn-primary py-3 px-4 me-2"><i class="fa fa-phone-alt me-2"></i>Make A Call</a>
-	                                <a href="" class="btn btn-dark py-3 px-4"><i class="fa fa-calendar-alt me-2"></i>Get Appoinment</a>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
+<!--	        <div class="container-xxl py-5">-->
+<!--	            <div class="container">-->
+<!--	                <div class="bg-light rounded p-3">-->
+<!--	                    <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">-->
+<!--	                        <div class="row g-5 align-items-center">-->
+<!--	                            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">-->
+<!--	                                <img class="img-fluid rounded w-100" src="../static/img/call-to-action.jpg" alt="">-->
+<!--	                            </div>-->
+<!--	                            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">-->
+<!--	                                <div class="mb-4">-->
+<!--	                                    <h1 class="mb-3">Contact With Our Certified Agent</h1>-->
+<!--	                                    <p>Eirmod sed ipsum dolor sit rebum magna erat. Tempor lorem kasd vero ipsum sit sit diam justo sed vero dolor duo.</p>-->
+<!--	                                </div>-->
+<!--	                                <a href="" class="btn btn-primary py-3 px-4 me-2"><i class="fa fa-phone-alt me-2"></i>Make A Call</a>-->
+<!--	                                <a href="" class="btn btn-dark py-3 px-4"><i class="fa fa-calendar-alt me-2"></i>Get Appoinment</a>-->
+<!--	                            </div>-->
+<!--	                        </div>-->
+<!--	                    </div>-->
+<!--	                </div>-->
+<!--	            </div>-->
+<!--	        </div>-->
 	        <!-- Call to Action End -->
 	        
 	
-	        <!-- Footer Start -->
+	        <!-- Footer Start1111 -->
 	        {% include footer %}
 	        <!-- Footer End -->
 	
@@ -532,5 +488,12 @@
 	    </div>
 	
 		{% include foot %}
+		<!-- modal -->
+		<div id="detailModal" class="modal_overlay">
+			<div class="modal_window" id="con">
+
+			</div>
+    	</div>
+
 	</body>
 </html>
