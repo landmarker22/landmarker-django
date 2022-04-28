@@ -4,7 +4,7 @@ import cx_Oracle
 import common.oracle_db as odb
 import Model.gallery.gallery_class as gclass
 
-def select_all():
+def select_all(user):
     conn = odb.connect()
     cursor = None
     query = 'SELECT * ' \
@@ -15,7 +15,7 @@ def select_all():
     try:
         cursor = conn.cursor()
         result = cursor.execute(query)
-        print(result)
+
         # 각 행을 하나씩 추출해서, Gallery 클래스 객체 생성함
         # 행의 컬럼값들을 꺼내서 Gallery 인스턴스의 초기값으로 설정
         for row in result:
@@ -33,9 +33,35 @@ def select_all():
 
     except Exception as msg:
         print('Gallery select_all() 에러 발생 : ', msg)
+
+
+    query = 'SELECT * ' \
+            'FROM L_LIKE ' \
+            'WHERE USER_NO = ' + str(user)
+
+    try:
+        cursor = conn.cursor()
+        like_result = cursor.execute(query).fetchall()
+
+    except Exception as msg:
+        print('Gallery select_all() like 에러 발생 : ', msg)
+
     finally:
         cursor.close()
         odb.close(conn)
+    print('like_result : ', like_result)
+    if user > 0:
+        for g in gallery_list:
+            for l in like_result:
+                if l[1] == g['g_no']:
+                    g['like'] = 1
+                    break
+                else:
+                    g['like'] = 0
+    else:
+        for g in gallery_list:
+            g['like'] = 0
+
     print('gallery_list : ', gallery_list)
     return gallery_list
 
@@ -78,7 +104,8 @@ def select_one(g_no):
                         'g_date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'gu_name': row[8]}
             # print('detail row_dict : ', row_dict)
 
-            detail_list.append(row_dict)
+        #     detail_list.append(row_dict)
+        detail = row_dict
 
     except Exception as msg:
         print('Detail select_one() detail 에러 발생 : ', msg)
@@ -106,5 +133,5 @@ def select_one(g_no):
 
     # print('detail_list : ', detail_list)
     # print('comment_list : ', comment_list)
-    return detail_list, comment_list, c_count_result
+    return detail, comment_list, c_count_result
     # return detail_result, comment_result, c_count_result

@@ -46,14 +46,20 @@ $(document).on("click", function(e){
     </div>
 </div>
 <div>
-    {% for c in comment %}
-    <div></div>
-        <div id="cuser" style="float: left; margin: 20px;">
-            {{c.cu_name}}
-        </div>
-        <div id="comment">
-            {{c.content}}
-        </div>
+    <div >
+        댓글 {{c_count}}개
     </div>
+    <hr>
+    {% for c in comment %}
+
+    <div id="cuser" style="float: left;" class="row-1 col-12">
+        <div class="col-2">{{c.cu_name}}</div>
+        <div class="col-10 ">{{c.content}}</div>
+    </div>
+    <br>
+<!--    <div id="comment">-->
+<!--        {{c.content}}-->
+<!--    </div>-->
+
     {% endfor %}
 </div>

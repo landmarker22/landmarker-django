@@ -11,7 +11,8 @@ import Model.gallery.gallery_controller as gcontroller
 
 
 def gallery(request):
-    data = gcontroller.select_all()
+    data = gcontroller.select_all(7)
+    print(data)
     context = {
         'head': 'parts/head.html',
         'navi': 'parts/navi.html',
@@ -19,7 +20,6 @@ def gallery(request):
         'footer': 'parts/footer.html',
         'data': data,
     }
-    print(data[0])
     return render(request, 'common/gallery.html', context)
 
 
