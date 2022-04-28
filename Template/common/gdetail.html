@@ -18,7 +18,7 @@ $(document).on("click", function(e){
     }
 });
 
-alert(comment);
+<!--alert(comment);-->
 </script>
 
 <div class="modal_title">
@@ -34,13 +34,13 @@ alert(comment);
 <div style="display: flex;">
     <div style="width: 400px; height: 400px;">
         <div class="border di position-relative overflow-hidden" style="width: 365px; margin: 11px; height: 365px;">
-            <img class="img-fluid" src="../static/img/{{g.photopath}}" style="width: 100%; height: 100%;">
-	        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-2 py-1 px-3">{{g.hashtag}}</div>
+            <img class="img-fluid" src="../static/img/{{detail.photopath}}" style="width: 100%; height: 100%;">
+	        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-2 py-1 px-3">{{detail.hashtag}}</div>
         </div>
     </div>
     <div style="width: 400px; height: 400px;">
         <div class="" style="width: 365px; margin: 11px; height: 365px;">
-            <div class="d-block h5 mb-2">{{g.gu_name}}</div>
+            <div class="d-block h5 mb-2">{{detail.gu_name}}</div>
 
         </div>
     </div>

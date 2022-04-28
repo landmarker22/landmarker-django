@@ -15,7 +15,7 @@ def select_all():
     try:
         cursor = conn.cursor()
         result = cursor.execute(query)
-
+        print(result)
         # 각 행을 하나씩 추출해서, Gallery 클래스 객체 생성함
         # 행의 컬럼값들을 꺼내서 Gallery 인스턴스의 초기값으로 설정
         for row in result:
@@ -69,6 +69,7 @@ def select_one(g_no):
 
     try:
         cursor = conn.cursor()
+        # detail_result = cursor.execute(query).fetchall()
         result = cursor.execute(query)
 
         for row in result:
@@ -89,13 +90,13 @@ def select_one(g_no):
 
     try:
         cursor = conn.cursor()
-        result = cursor.execute(query)
+        c_count_result = cursor.execute(query).fetchone()
 
-        for row in result:
-            row_dict = {'c_count': row[0]}
-            # print('c_count row_dict : ', row_dict)
-
-            comment_list.append(row_dict)
+        # for row in result:
+        #     row_dict = {'c_count': row[0]}
+        #     # print('c_count row_dict : ', row_dict)
+        #
+        #     comment_list.append(row_dict)
 
     except Exception as msg:
         print('Detail select_one() c_count 에러 발생 : ', msg)
@@ -105,4 +106,5 @@ def select_one(g_no):
 
     # print('detail_list : ', detail_list)
     # print('comment_list : ', comment_list)
-    return detail_list, comment_list
+    return detail_list, comment_list, c_count_result
+    # return detail_result, comment_result, c_count_result
