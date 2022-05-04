@@ -17,6 +17,36 @@ $(document).on("click", function(e){
     }
 });
 
+$(".dlike").click(function(){
+    var g_no = $(this).attr('g_no');
+    var u_no = $(this).attr('u_no');
+    var onoff = $(this).attr('onoff');
+    console.log('g_no : ' + g_no + ', u_no : ' + u_no + ', onoff : ', onoff);
+    $.ajax({
+        url: 'gallike.do',
+        data:{'g_no': g_no,
+              'u_no': u_no,
+              'onoff': onoff},
+        success: function(result){
+            $('#con').html(result);
+        }
+    });
+    if(onoff=='1'){
+        $(this).attr('onoff', '0');
+        $(this).attr('class', 'bi bi-heart fs-5 dlike');
+        $(this).css('color', '#e06666');
+        $('div#'+g_no+' > a > i').attr('onoff', '0');
+        $('div#'+g_no+' > a > i').attr('class', 'bi bi-heart fs-5 like');
+        $('div#'+g_no+' > a > i').css('color', '#e06666');
+    }else{
+        $(this).attr('onoff', '1');
+        $(this).attr('class', 'bi bi-heart-fill fs-5 dlike');
+        $(this).css('color', '#e06666');
+        $('div#'+g_no+' > a > i').attr('onoff', '1');
+        $('div#'+g_no+' > a > i').attr('class', 'bi bi-heart-fill fs-5 like');
+        $('div#'+g_no+' > a > i').css('color', '#e06666');
+    }
+})
 </script>
 
 <!--<div class="modal_title">-->
@@ -138,9 +168,9 @@ img{
             <div class="block3">
               <div class="icons">
                   {% if like == 1 %}
-                  <div style="font-size: 15px;"><i g_no="{{detail.g_no}}" u_no="{{7}}" onoff="1" role="button" class="bi bi-heart-fill fs-5 like" style="color:#e06666; margin-right:10px;"></i>좋아요 {{like_count}}개</div>
+                  <div style="font-size: 15px;"><i g_no="{{detail.g_no}}" u_no="{{7}}" onoff="1" role="button" class="bi bi-heart-fill fs-5 dlike" style="color:#e06666; margin-right:10px;"></i>좋아요 {{like_count}}개</div>
                   {% else %}
-                  <div style="font-size: 15px;"><i g_no="{{detail.g_no}}" u_no="{{7}}" onoff="1" role="button" class="bi bi-heart fs-5 like" style="color:#e06666; margin-right:10px;"></i>좋아요 {{like_count}}개</div>
+                  <div style="font-size: 15px;"><i g_no="{{detail.g_no}}" u_no="{{7}}" onoff="1" role="button" class="bi bi-heart fs-5 dlike" style="color:#e06666; margin-right:10px;"></i>좋아요 {{like_count}}개</div>
                   {% endif %}
 <!--                  <i class="bi bi-chat icons"></i>-->
 <!--                  <i class="bi bi-send icons"></i>-->

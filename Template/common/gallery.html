@@ -195,7 +195,7 @@
 	                                    <div class="p-3 pb-0">
 	                                        <h5 class="text-primary mb-2" style="float:left; margin:0px 10px 0px 0px;">{{d.u_name}}</h5>
 											<h8 class="text-primary mb-3" style="float:left; margin:0px 10px 0px 0px;">여 행 중 독 자</h8>
-											<div id="like">
+											<div id="{{d.g_no}}">
 											{% if d.like == 1 %}
 											<a><i id="on" role="button" class="bi bi-heart-fill fs-5 like" style="float:right; color:#e06666;" g_no="{{d.g_no}}" u_no="{{7}}" onoff="1"></i></a>
 											{% else %}

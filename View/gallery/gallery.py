@@ -38,16 +38,18 @@ def gdetail(request):
     return render(request, 'common/gdetail.html', context)
 
 def gallike(request):
-    data = gcontroller.gallike(request.GET['g_no'], request.GET['u_no'], request.GET['onoff'])
-    print(data)
+    gcontroller.gallike(request.GET['g_no'], request.GET['u_no'], request.GET['onoff'])
+    data = gcontroller.select_one(request.GET['g_no'], 7)
+    print('상세게시글 data : ', data)
     context = {
-        'head': 'parts/head.html',
-        'navi': 'parts/navi.html',
-        'foot': 'parts/foot.html',
-        'footer': 'parts/footer.html',
-        'data': data,
+        'detail': data[0],
+        'comment': data[1],
+        'like_count': data[2][0],
+        'like': data[3][0],
+        'c_count': data[4][0]
     }
-    return render(request, 'common/gallery.html', context)
+    # return HttpResponse(json.dumps(data), content_type='application/json')
+    return render(request, 'common/gdetail.html', context)
 
 def galsearch(request):
     print('검색어 : ', request.GET['search'])
