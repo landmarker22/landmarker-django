@@ -1,5 +1,7 @@
 from django.http import request
 from django.shortcuts import render
+import Model.AI.test as ai
+
 
 def home(request):
     context = {
@@ -32,6 +34,8 @@ def error404(request):
 
 
 def about(request):
+    print(ai.run('20210511_105221.jpg'))
+
     context = {
         'head': 'parts/head.html',
         'navi': 'parts/navi.html',
