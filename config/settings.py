@@ -75,19 +75,28 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.oracle',
+#     #     'NAME': 'xe',
+#     #     'USER': 'c##student2',
+#     #     'PASSWORD': 'student2',
+#     #     'HOST': 'localhost',
+#     #     'PORT': '1521',
+#     # }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE':'django.db.backends.oracle',
+        'NAME':'landmarker_high',
+        'USER':'student2',
+        'PASSWORD':'Password2022',#Please provide the db password here
     }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.oracle',
-    #     'NAME': 'xe',
-    #     'USER': 'c##student2',
-    #     'PASSWORD': 'student2',
-    #     'HOST': 'localhost',
-    #     'PORT': '1521',
-    # }
 }
 
 
@@ -139,4 +148,4 @@ STATICFILES_DIRS = [
 os.path.join(BASE_DIR, 'static')
 ]
 
-UPLOAD_DIR = os.path.join(BASE_DIR,'static/img');
+UPLOAD_DIR = os.path.join(BASE_DIR,'static/img')
