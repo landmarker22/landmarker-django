@@ -1,7 +1,7 @@
 from django.http import request
 from django.shortcuts import render
 import Model.AI.test as ai
-
+import Model.login.login_controller as lc
 
 def home(request):
     context = {
@@ -92,3 +92,24 @@ def testImonial(request):
         'footer': 'parts/footer.html',
     }
     return render(request, 'common/testimonial.html', context)
+
+
+def login(request):
+    if request.method == 'GET':
+        link_key = request.GET['link_key']
+
+        lc.deleteDate()
+        user_no = lc.selectLink(link_key)
+        lc.deleteKey(link_key)
+        request.session['user_no'] = user_no
+
+        return render(request, 'login/login.html')
+    else:
+        return render(request, 'login/login.html')
+
+
+def logout(request):
+    if request.session['user_no'] != None:
+        del request.session['user_no']
+
+    return render(request, 'login/logout.html')

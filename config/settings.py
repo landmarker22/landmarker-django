@@ -92,10 +92,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE':'django.db.backends.oracle',
-        'NAME':'landmarker_high',
-        'USER':'student2',
-        'PASSWORD':'Password2022',#Please provide the db password here
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': 'landmarker_high',
+        'USER': 'student2',
+        'PASSWORD': 'Password2022',#Please provide the db password here
     }
 }
 
@@ -148,4 +148,9 @@ STATICFILES_DIRS = [
 os.path.join(BASE_DIR, 'static')
 ]
 
-UPLOAD_DIR = os.path.join(BASE_DIR,'static/img')
+UPLOAD_DIR = os.path.join(BASE_DIR, 'static/img')
+
+
+# 세션
+SESSION_COOKIE_AGE = 600  # 초
+SESSION_SAVE_EVERY_REQUEST = True
