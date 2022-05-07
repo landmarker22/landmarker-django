@@ -22,9 +22,9 @@
                 {% if user.user_no == None %}
                 	<a href="" class="nav-item nav-link" id="aa" data-bs-toggle="modal" data-bs-target="#exampleModal">login</a>
                 {% else %}
-	                <a href="http:/localhost:8888/landmarker/mypage.do" class="nav-item nav-link">Mytest</a>
+	                <a href="http://localhost:8888/landmarker/mypage.do" class="nav-item nav-link">Mytest</a>
  	                {% if user.user_admin == 'Y' %}
-                        <a href="http:/localhost:8888/landmarker/admin.do" class="nav-item nav-link">Admin</a>
+                        <a href="http://localhost:8888/landmarker/admin.do" class="nav-item nav-link">Admin</a>
                     {% endif %}
 	                <a href="logout.do" class="nav-item nav-link" >logout</a>
                 {% endif %}
