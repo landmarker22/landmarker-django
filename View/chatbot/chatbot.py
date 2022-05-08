@@ -14,6 +14,9 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
 
+import Model.chatbot.responseUpdate as ru
+
+
 def chatbot(request):
     context = {}
 
@@ -104,6 +107,7 @@ def chattrain(request):
 def chatanswer(request):
     context = {}
 
+    landmark = "(주)교보문고"
     questext = request.GET['questext']
 
     import pickle
@@ -112,9 +116,7 @@ def chatanswer(request):
     colorama.init()
     from colorama import Fore, Style, Back
 
-
-    file = open(f"./static/intents.json", encoding="UTF-8")
-    data = json.loads(file.read())
+    data = ru.run(landmark)
 
     def chat3(inp):
         # load trained model
@@ -138,17 +140,17 @@ def chatanswer(request):
         result = model.predict(keras.preprocessing.sequence.pad_sequences(tokenizer.texts_to_sequences([inp]),
                                                                           truncating='post', maxlen=max_len))
         tag = lbl_encoder.inverse_transform([np.argmax(result)])
+        try:
+            for i in data['intents']:
+                if i['tag'] == tag:
+                    print(tag)
+                    txt1 = np.random.choice(i['responses'])
+                    print(Fore.GREEN + "ChatBot:" + Style.RESET_ALL, txt1)
+            # print(Fore.GREEN + "ChatBot:" + Style.RESET_ALL,random.choice(responses))
 
-        for i in data['intents']:
-            if i['tag'] == tag:
-                print(tag)
-                txt1 = np.random.choice(i['responses'])
-                print(Fore.GREEN + "ChatBot:" + Style.RESET_ALL, txt1)
-
-        # print(Fore.GREEN + "ChatBot:" + Style.RESET_ALL,random.choice(responses))
-
-        return txt1 + "1"
-
+            return txt1
+        except UnboundLocalError as error:
+            return "무슨 질문인지 모르겠네요."
     anstext = chat3(questext)
     print(anstext)
 

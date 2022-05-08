@@ -8,7 +8,6 @@ def deleteKey(link_key):
     query = "DELETE FROM L_LINK " + \
             "WHERE LINK_KEY = '" + link_key + "' "
 
-
     result = 0
     try:
         cursor = conn.cursor()
@@ -58,9 +57,7 @@ def selectLink(link_key):
     result = 0
     try:
         cursor = conn.cursor()
-        print(1)
         result = cursor.execute(query).fetchone()
-        print(2)
         print("user_no : " + str(result[0]))
     except Exception as msg:
         print('selectLink() 에러 발생 : ', msg)
@@ -81,15 +78,13 @@ def selectUser(user_no):
 
     try:
         cursor = conn.cursor()
-        print(1)
         result = cursor.execute(query).fetchone()
-        print(2)
         user = {'user_no': result[0], 'user_email': result[1], 'user_name': result[2],
                     'user_badge': result[3], 'login_ok': result[4], 'user_admin': result[5],
                     'user_date': result[6].strftime('%Y-%m-%d %H:%M:%S')}
         print(user)
     except Exception as msg:
-        print('selectLink() 에러 발생 : ', msg)
+        print('selectUser() 에러 발생 : ', msg)
     finally:
         cursor.close()
         odb.close(conn)
