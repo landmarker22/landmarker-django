@@ -18,6 +18,7 @@ from django.urls import path
 
 from View.gallery import gallery
 from View.home import home
+from View.chatbot import chatbot
 from View.photoSearch.photoSearchView import photoSearchView, photoSearch_result
 
 urlpatterns = [
@@ -32,9 +33,13 @@ urlpatterns = [
     path('landmarker/propertyList.do', home.propertyList, name='propertyList'),
     path('landmarker/propertyType.do', home.propertyType, name='propertyType'),
     path('landmarker/testImonial.do', home.testImonial, name='testImonial'),
+    path('landmarker/chatbot.do', chatbot.chatbot, name='chatbot'),
+    path('landmarker/chattrain', chatbot.chattrain, name='chattrain'),
+    path('landmarker/chatanswer', chatbot.chatanswer, name='chatanswer'),
+
 
     # 이미지 검색
-    path('landmarker/photoSearch.do', photoSearchView.photoSearch, name='photoSearch'),
+    path('landmarker/photoSearch.do${sessionScope.loginUser}', photoSearchView.photoSearch, name='photoSearch'),
     path('landmarker/photoSearch_result.do', photoSearch_result.photoSearch_result, name='photoSearch_result'),
 
 ]
