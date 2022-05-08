@@ -25,7 +25,6 @@ def gallery(request):
 
     return render(request, 'common/gallery.html', context)
 
-
 def gdetail(request):
     print('상세게시글번호 : ', request.GET['g_no'])
     data = gcontroller.select_one(request.GET['g_no'], 7)
