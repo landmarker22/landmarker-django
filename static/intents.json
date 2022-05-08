@@ -4,7 +4,7 @@
      "responses": ["제대로 입력해주세요"]},
     {"tag": "help",
      "patterns": ["명령", "명령어", "헬프", "help", "HELP", "Help"],
-     "responses": ["명령어 알려드렸습니다. &nbsp<br>&nbsp 안녕하세요"]},
+     "responses": [" == 명 령 어 == <br> '명령어 알려줘' <br> '주소 알려줘' <br> '날씨 알려줘' <br> '맛집 알려줘' <br> ===== ====="]},
     {"tag": "address",
      "patterns": ["주소", "주소 알려줘", "주소 알려주세요"],
      "responses": []},

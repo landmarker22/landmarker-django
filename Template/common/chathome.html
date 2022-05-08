@@ -7,6 +7,42 @@
     {% block scripts %}
     <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script>
+        $(document).ready(function(){
+            chattext = "명령어"
+            if(chattext == "") {
+                document.getElementById("chattext").focus();
+                return false;
+            }
+
+            var strurl = "chatanswer?questext=" + chattext;
+            //alert(strurl);
+            //return false;
+
+            xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    var data = xhr.responseText;
+
+                    var obj = JSON.parse(data);
+
+                    if(obj.flag == "0"){
+
+                        bottext = "<div style='margin:15px 0; padding:3px 9px; background-color:#DDD; display: inline-block; text-align:left; border-radius:3px;'>" + obj.anstext + "</div>";
+                        document.getElementById("chatbox").innerHTML += bottext;
+
+                        var objDiv = document.getElementById("chatbox");
+                        objDiv.scrollTop = objDiv.scrollHeight;
+
+                        document.getElementById("chattext").value = "";
+                        document.getElementById("chattext").focus();
+
+                    }
+                }
+            };
+            xhr.open("GET", strurl);
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            xhr.send(null);
+	    })
         function getCookie(name) {
             var cookieValue = null;
             if (document.cookie && document.cookie !== '') {
@@ -34,7 +70,7 @@
                 return false;
             }
 
-            addtext = "<div style='margin:15px 0;text-align:right;'> <span style='padding:3px 10px;background-color:#3388cc;border-radius:3px;'>" + chattext + "</span></div>";
+            addtext = "<div style='margin:15px 0; padding:5px; text-align:right;'> <span style='padding:3px 10px;background-color:#3388cc;border-radius:3px;'>" + chattext + "</span></div>";
             document.getElementById("chatbox").innerHTML += addtext;
 
             var strurl = "chatanswer?questext=" + chattext;
@@ -50,7 +86,7 @@
 
                     if(obj.flag == "0"){
 
-                        bottext = "<div style='margin:15px 0;text-align:left;'><span style='padding:3px 10px;background-color:#DDD;border-radius:3px;'>" + obj.anstext + "</span></div>";
+                        bottext = "<div style='margin:15px 0; padding:3px 9px; background-color:#DDD; display: inline-block; text-align:left; border-radius:3px;'>" + obj.anstext + "</div>";
                         document.getElementById("chatbox").innerHTML += bottext;
 
                         var objDiv = document.getElementById("chatbox");
@@ -87,6 +123,20 @@
             xhr.send(null);
         };
 
+        function adbClick() {
+            document.getElementById("chattext").value = "주소";
+            sendAsk();
+        };
+
+        function webClick() {
+            document.getElementById("chattext").value = "날씨";
+            sendAsk();
+        };
+
+        function rebClick() {
+            document.getElementById("chattext").value = "맛집";
+            sendAsk();
+        };
         </script>
     {% endblock %}
 
@@ -131,12 +181,18 @@
             </tr>
         </table>
     </div>
-    <div id="chatbox" style=height:450px;margin-top:50px;padding:10px;background-color:#BBCCDD;overflow-y:scroll;overflow-x:hidden;max-height:100vh;"></div>
+    <div id="chatbox" style=height:450px;margin-top:50px;padding:10px;background-color:#BBCCDD;overflow-y:scroll;overflow-x:hidden;max-height:100vh;">
+    </div>
+    <div style="padding:10px">
+        <button onclick="adbClick()" id="adb">주소 알려줘</button>
+        <button onclick="webClick()" id="web">날씨 알려줘</button>
+        <button onclick="rebClick()" id="reb">맛집 알려줘</button>
+    </div>
     <div class="chatfooter">
         <table width="100%">
             <tr>
             <td width="90%">
-                <input id="chattext" style="padding:5px 0;width:100%;border:solid 0px #FFF;">
+                <input type="text" id="chattext" style="padding:5px 0;width:100%;border:solid 0px #FFF;">
             </td>
             <td width="10%"><button style="padding:5px 0;width:100%;" onclick="sendAsk()" id="sendbtn" class="btn btn-primary px-3 d-lg-flex nav-link">SEND</button></td>
             </tr>
