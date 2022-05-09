@@ -25,7 +25,31 @@ def gallery(request):
 
     return render(request, 'common/gallery.html', context)
 
+
+def gdetailview(request):
+    print('request', request)
+    print('상세게시글번호 : ', request.GET['g_no'])
+    data = gcontroller.select_one(request.GET['g_no'], 7)
+    print('상세게시글 data : ', data)
+    context = {
+        'detail': data[0],
+        'comment': data[1],
+        'like_count': data[2][0],
+        'like': data[3][0],
+        'c_count': data[4][0],
+        'head': 'parts/head.html',
+        'navi': 'parts/navi.html',
+        'foot': 'parts/foot.html',
+        'footer': 'parts/footer.html',
+        'data': data,
+        'user': lc.userLoad(request)
+    }
+
+    return render(request, 'common/gdetailview.html', context)
+
+
 def gdetail(request):
+    print('request', request)
     print('상세게시글번호 : ', request.GET['g_no'])
     data = gcontroller.select_one(request.GET['g_no'], 7)
     print('상세게시글 data : ', data)

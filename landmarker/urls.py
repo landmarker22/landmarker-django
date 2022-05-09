@@ -30,6 +30,7 @@ urlpatterns = [
     path('landmarker/gallike.do', gallery.gallike, name='gallike'),
     path('landmarker/galsearch.do', gallery.galsearch, name='galsearch'),
     path('landmarker/gdetail.do', gallery.gdetail, name='gdetail'),
+    path('landmarker/gdetailview.do', gallery.gdetailview, name='gdetailview'),
     path('landmarker/contact.do', home.contact, name='contact'),
     path('landmarker/propertyAgent.do', home.propertyAgent, name='propertyAgent'),
     path('landmarker/propertyList.do', home.propertyList, name='propertyList'),
