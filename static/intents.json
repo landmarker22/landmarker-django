@@ -1,0 +1,17 @@
+{"intents": [
+    {"tag": "error",
+     "patterns": [""],
+     "responses": ["제대로 입력해주세요"]},
+    {"tag": "help",
+     "patterns": ["명령", "명령어", "헬프", "help", "HELP", "Help"],
+     "responses": [" == 명 령 어 == <br> '명령어 알려줘' <br> '주소 알려줘' <br> '날씨 알려줘' <br> '맛집 알려줘' <br> ===== ====="]},
+    {"tag": "address",
+     "patterns": ["주소", "주소 알려줘", "주소 알려주세요"],
+     "responses": []},
+    {"tag": "weather",
+     "patterns": ["날씨", "날씨 알려줘", "날씨 알려주세요"],
+     "responses": []},
+    {"tag": "restaurant",
+     "patterns": ["맛집", "맛집 알려줘", "맛집 알려주세요"],
+     "responses": []}
+]}

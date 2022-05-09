@@ -3,9 +3,9 @@
 import cx_Oracle
 
 # 사용자 정의 변수
-dbURL = "localhost:1521/xe"
-dbUSER = "c##student2"  # 아이디
-dbPASSWD = "student2"  # 비번
+dbURL = "landmarker_high"
+dbUSER = "student2"  # 아이디
+dbPASSWD = "Password2022"  # 비번
 
 
 def oracle_init():  # 애플리케이션 구동시 딱 한번 실행되어야 함
