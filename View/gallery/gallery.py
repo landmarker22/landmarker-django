@@ -12,7 +12,8 @@ import Model.login.login_controller as lc
 
 
 def gallery(request):
-    data = gcontroller.select_all(7, 0)
+    print("로그인유저로그인유저로그인유저로그인유저로그인유저로그인유저", lc.userLoad(request))
+    data = gcontroller.select_all(lc.userLoad(request), 0)
     print(data)
     context = {
         'head': 'parts/head.html',
@@ -29,7 +30,7 @@ def gallery(request):
 def gdetailview(request):
     print('request', request)
     print('상세게시글번호 : ', request.GET['g_no'])
-    data = gcontroller.select_one(request.GET['g_no'], 7)
+    data = gcontroller.select_one(request.GET['g_no'], lc.userLoad(request))
     print('상세게시글 data : ', data)
     context = {
         'detail': data[0],
@@ -51,7 +52,7 @@ def gdetailview(request):
 def gdetail(request):
     print('request', request)
     print('상세게시글번호 : ', request.GET['g_no'])
-    data = gcontroller.select_one(request.GET['g_no'], 7)
+    data = gcontroller.select_one(request.GET['g_no'], lc.userLoad(request))
     print('상세게시글 data : ', data)
     context = {
         'detail': data[0],
@@ -65,10 +66,26 @@ def gdetail(request):
     # return HttpResponse(json.dumps(data), content_type='application/json')
     return render(request, 'common/gdetail.html', context)
 
+def galreply(request):
+    print('댓글쓸게시글번호 : ', request.POST['g_no'], '댓글쓸유저넘버 : ', request.POST['u_no'])
+    gcontroller.insert_reply(request.POST['g_no'], request.POST['u_no'], request.POST['reply'])
+    data = gcontroller.select_one(request.POST['g_no'], lc.userLoad(request))
+    print('상세게시글 data : ', data)
+    context = {
+        'detail': data[0],
+        'comment': data[1],
+        'like_count': data[2][0],
+        'like': data[3][0],
+        'c_count': data[4][0],
+        'user': lc.userLoad(request)
+    }
+
+    return render(request, 'common/gdetail.html', context)
 
 def gallike(request):
-    gcontroller.gallike(request.GET['g_no'], request.GET['u_no'], request.GET['onoff'])
-    data = gcontroller.select_one(request.GET['g_no'], 7)
+    print("디테일 보러온 유저? ", lc.userLoad(request))
+    gcontroller.gallike(request.GET['g_no'], lc.userLoad(request).get('user_no'), request.GET['onoff'])
+    data = gcontroller.select_one(request.GET['g_no'], lc.userLoad(request))
     print('상세게시글 data : ', data)
     context = {
         'detail': data[0],

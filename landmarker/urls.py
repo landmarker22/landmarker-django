@@ -26,11 +26,6 @@ urlpatterns = [
     path('landmarker/main.do', home.main, name='main'),
     path('landmarker/error404.do', home.error404, name='error404'),
     path('landmarker/about.do', home.about, name='about'),
-    path('landmarker/gallery.do', gallery.gallery, name='gallery'),
-    path('landmarker/gallike.do', gallery.gallike, name='gallike'),
-    path('landmarker/galsearch.do', gallery.galsearch, name='galsearch'),
-    path('landmarker/gdetail.do', gallery.gdetail, name='gdetail'),
-    path('landmarker/gdetailview.do', gallery.gdetailview, name='gdetailview'),
     path('landmarker/contact.do', home.contact, name='contact'),
     path('landmarker/propertyAgent.do', home.propertyAgent, name='propertyAgent'),
     path('landmarker/propertyList.do', home.propertyList, name='propertyList'),
@@ -49,4 +44,11 @@ urlpatterns = [
     path('landmarker/photoSearch.do${sessionScope.loginUser}', photoSearchView.photoSearch, name='photoSearch'),
     path('landmarker/photoSearch_result.do', photoSearch_result.photoSearch_result, name='photoSearch_result'),
 
+    # 갤러리
+    path('landmarker/gallery.do', gallery.gallery, name='gallery'),
+    path('landmarker/gallike.do', gallery.gallike, name='gallike'),
+    path('landmarker/galsearch.do', gallery.galsearch, name='galsearch'),
+    path('landmarker/gdetail.do', gallery.gdetail, name='gdetail'),
+    path('landmarker/galreply.do', gallery.galreply, name='galreply'),
+    path('landmarker/gdetailview.do', gallery.gdetailview, name='gdetailview'),
 ]

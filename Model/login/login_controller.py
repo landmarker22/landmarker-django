@@ -94,6 +94,9 @@ def selectUser(user_no):
 def userLoad(request):
     try:
         user = selectUser(request.session['user_no'])
+        print("왜 유저넘버 줄때도 있고 유저객체 줄때도 있고 다 다르냐고", user)
+        user = request.session['user_no']
+        print("왜 유저넘버 줄때도 있고 유저객체 줄때도 있고 다 다르냐고2", user)
         return user
     except KeyError:
         return 0

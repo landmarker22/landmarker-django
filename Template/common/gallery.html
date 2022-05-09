@@ -197,9 +197,9 @@
 											<h8 class="text-primary mb-3" style="float:left; margin:0px 10px 0px 0px;">여 행 중 독 자</h8>
 											<div id="{{d.g_no}}">
 											{% if d.like == 1 %}
-											<a><i id="on" role="button" class="bi bi-heart-fill fs-5 like" style="float:right; color:#e06666;" g_no="{{d.g_no}}" u_no="{{7}}" onoff="1"></i></a>
+											<a><i id="on" role="button" class="bi bi-heart-fill fs-5 like" style="float:right; color:#e06666;" g_no="{{d.g_no}}" u_no="{{user.user_no}}" onoff="1"></i></a>
 											{% else %}
-											<a><i id="off" role="button" class="bi bi-heart fs-5 like" style="float:right; color:#e06666;" g_no="{{d.g_no}}" u_no="{{7}}" onoff="0"></i></a>
+											<a><i id="off" role="button" class="bi bi-heart fs-5 like" style="float:right; color:#e06666;" g_no="{{d.g_no}}" u_no="{{user.user_no}}" onoff="0"></i></a>
 											{% endif %}
 											</div>
 <!--	                                        <p style="clear:both;"><i class="fa fa-map-marker-alt text-primary me-2"></i><a class="text-dark" href="">서울 용산구 남산공원길 105</a></p>-->

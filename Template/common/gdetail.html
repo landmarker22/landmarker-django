@@ -1,9 +1,13 @@
 {% load static %}
 <script type="text/javascript">
+$.ajaxSetup({
+    headers: { "X-CSRFToken": '{{csrf_token}}' }
+  });
+
 $(function(){
     $('#close_modal').click(function(){
         $("#detailModal").css('display', 'none');
-        $("#navi").css('display', 'block');
+        $(".nav-bar").css('display', 'block');
         document.body.style.overflowY = "visible";
         $(".close_modal").unbind("click");
     })
@@ -13,7 +17,7 @@ $(document).on("click", function(e){
     if( $("#detailModal").is(e.target)) {
         $("#detailModal").css({ display:"none" });
         document.body.style.overflowY = "visible";
-        $("#navi").css('display', 'block');
+        $(".nav-bar").css('display', 'block');
     }
 });
 
@@ -22,30 +26,59 @@ $(".dlike").click(function(){
     var u_no = $(this).attr('u_no');
     var onoff = $(this).attr('onoff');
     console.log('g_no : ' + g_no + ', u_no : ' + u_no + ', onoff : ', onoff);
+    if(u_no == 0) {
+        alert('로그인이 필요합니다.');
+    }else{
+        $.ajax({
+            url: 'gallike.do',
+            data:{'g_no': g_no,
+                  'u_no': u_no,
+                  'onoff': onoff},
+            success: function(result){
+                $('#con').html(result);
+            }
+        });
+        if(onoff=='1'){
+            $(this).attr('onoff', '0');
+            $(this).attr('class', 'bi bi-heart fs-5 dlike');
+            $(this).css('color', '#e06666');
+            $('div#'+g_no+' > a > i').attr('onoff', '0');
+            $('div#'+g_no+' > a > i').attr('class', 'bi bi-heart fs-5 like');
+            $('div#'+g_no+' > a > i').css('color', '#e06666');
+        }else{
+            $(this).attr('onoff', '1');
+            $(this).attr('class', 'bi bi-heart-fill fs-5 dlike');
+            $(this).css('color', '#e06666');
+            $('div#'+g_no+' > a > i').attr('onoff', '1');
+            $('div#'+g_no+' > a > i').attr('class', 'bi bi-heart-fill fs-5 like');
+            $('div#'+g_no+' > a > i').css('color', '#e06666');
+        }
+    }
+})
+
+$('#reply_text').keypress(function(e){
+    if(e.keyCode == 13){
+        $('#reply_btn').click();
+    }
+})
+
+$('#reply_btn').click(function(){
+    var reply = $('#reply_text').val();
+    var g_no = $('.dlike').attr('g_no');
+    var u_no = $('.dlike').attr('u_no');
+    console.log('g_no : ' + g_no + ', u_no : ' + u_no);
+    console.log(reply);
+
     $.ajax({
-        url: 'gallike.do',
-        data:{'g_no': g_no,
-              'u_no': u_no,
-              'onoff': onoff},
-        success: function(result){
+        url: 'galreply.do',
+        type: 'post',
+        data: {'g_no': g_no,
+               'u_no': u_no,
+               'reply': reply},
+        success:function(result){
             $('#con').html(result);
         }
     });
-    if(onoff=='1'){
-        $(this).attr('onoff', '0');
-        $(this).attr('class', 'bi bi-heart fs-5 dlike');
-        $(this).css('color', '#e06666');
-        $('div#'+g_no+' > a > i').attr('onoff', '0');
-        $('div#'+g_no+' > a > i').attr('class', 'bi bi-heart fs-5 like');
-        $('div#'+g_no+' > a > i').css('color', '#e06666');
-    }else{
-        $(this).attr('onoff', '1');
-        $(this).attr('class', 'bi bi-heart-fill fs-5 dlike');
-        $(this).css('color', '#e06666');
-        $('div#'+g_no+' > a > i').attr('onoff', '1');
-        $('div#'+g_no+' > a > i').attr('class', 'bi bi-heart-fill fs-5 like');
-        $('div#'+g_no+' > a > i').css('color', '#e06666');
-    }
 })
 </script>
 
@@ -168,9 +201,9 @@ img{
             <div class="block3">
               <div class="icons">
                   {% if like == 1 %}
-                  <div style="font-size: 15px;"><i g_no="{{detail.g_no}}" u_no="{{7}}" onoff="1" role="button" class="bi bi-heart-fill fs-5 dlike" style="color:#e06666; margin-right:10px;"></i>좋아요 {{like_count}}개</div>
+                  <div style="font-size: 15px;"><i g_no="{{detail.g_no}}" u_no="{{user.user_no}}" onoff="1" role="button" class="bi bi-heart-fill fs-5 dlike" style="color:#e06666; margin-right:10px;"></i>좋아요 {{like_count}}개</div>
                   {% else %}
-                  <div style="font-size: 15px;"><i g_no="{{detail.g_no}}" u_no="{{7}}" onoff="0" role="button" class="bi bi-heart fs-5 dlike" style="color:#e06666; margin-right:10px;"></i>좋아요 {{like_count}}개</div>
+                  <div style="font-size: 15px;"><i g_no="{{detail.g_no}}" u_no="{{user.user_no}}" onoff="0" role="button" class="bi bi-heart fs-5 dlike" style="color:#e06666; margin-right:10px;"></i>좋아요 {{like_count}}개</div>
                   {% endif %}
 <!--                  <i class="bi bi-chat icons"></i>-->
 <!--                  <i class="bi bi-send icons"></i>-->
@@ -181,11 +214,10 @@ img{
             </div>
             <hr style="height: 0.5px;">
             <div class="block4">
-                <i class="bi bi-emoji-smile" style="float: left; font-size: 25px;"></i>
-                <div style="float: left; width: 78%;" ><textarea class="form-control" id="input_text" rows="1" style="border: none; resize: none; font-size: 15px;"  placeholder="댓글 달기..."></textarea></div>
+                <div style="float: left; width: 78%;" ><textarea class="form-control" id="reply_text" rows="1" style="border: none; resize: none; font-size: 15px;"  placeholder="댓글 달기..."></textarea></div>
                 <div style="float: right; display: inline;">
                 <div class="col-auto">
-                  <button type="submit" disabled="true" id="TestBtn" class="btn btn-link" style="float: right; font-size: 15px;">게시</button>
+                  <button type="button" id="reply_btn" class="btn btn-link" style="float: right; font-size: 15px;">게시</button>
                 </div>
               </div>
             </div>
