@@ -1,4 +1,30 @@
+$.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+    });
 $(function(){
+    $("#gwrite-btn").click(function(){
+        var u_no = $("#gwrite-btn").attr('data-id');
+        u_no = 8;
+        console.log('u_no : ' + u_no);
+        if(u_no == ''){
+            alert('로그인이 필요합니다.');
+        }else{
+            $.ajax({
+                url: 'gwrite.do',
+                data:{'u_no': u_no},
+                type:'post',
+                success: function(result){
+                    $('#con').html(result);
+                    $(".nav-bar").css('display', 'none');
+                    $("#detailModal").css('display', 'flex');
+                    $("#detailModal").css('top', window.pageYOffset + 'px');
+                    document.body.style.overflowY = "hidden";
+                }
+            });
+        }
+
+    })
+
     $(".detail1").click(function(){
         var g_no = $(this).attr('data-id');
         console.log('g_no : ' + g_no);

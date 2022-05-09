@@ -46,6 +46,8 @@ urlpatterns = [
 
     # 갤러리
     path('landmarker/gallery.do', gallery.gallery, name='gallery'),
+    path('landmarker/gwrite.do', gallery.gwrite, name='gwrite'),
+    path('landmarker/gupload.do', gallery.gupload, name='gupload'),
     path('landmarker/gallike.do', gallery.gallike, name='gallike'),
     path('landmarker/galsearch.do', gallery.galsearch, name='galsearch'),
     path('landmarker/gdetail.do', gallery.gdetail, name='gdetail'),

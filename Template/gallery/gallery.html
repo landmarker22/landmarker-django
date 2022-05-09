@@ -29,7 +29,6 @@
 
 		<!-- Template Stylesheet -->
 		<link href="../static/css/style.css" rel="stylesheet">
-
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <!--		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />-->
@@ -44,7 +43,7 @@
 				object-fit: cover;
 			}
 			.modal_overlay {
-				width: 100%;
+				width:100%;
 				height: 100%;
 				position: absolute;
 				left: 0;
@@ -64,8 +63,8 @@
 				-webkit-backdrop-filter: blur(13.5px);
 				border-radius: 10px;
 				border: 1px solid rgba(255, 255, 255, 0.18);
-				width: 800px;
-				height: 600px;
+				width: 100%;
+				height: 100%;
 				position: relative;
 				padding: 10px;
 			}
@@ -166,11 +165,11 @@
 	                    </div>
 	                    <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
 	                        <ul class="nav nav-pills d-inline-flex justify-content-end mb-2">
+<!--	                            <li class="nav-item me-2">-->
+<!--	                                <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#tab-1">최근순</a>-->
+<!--	                            </li>-->
 	                            <li class="nav-item me-2">
-	                                <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#tab-1">최근순</a>
-	                            </li>
-	                            <li class="nav-item me-2">
-	                                <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-2">인기순</a>
+	                                <a class="btn btn-outline-primary" id="gwrite-btn" data-bs-toggle="pill" data-id="{{user.user_no}}" role="button">Posting</a>
 	                            </li>
 <!--	                            <li class="nav-item me-0">-->
 <!--	                                <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-3">가까운거리순</a>-->
@@ -271,5 +270,26 @@
 			</div>
 		</div>
 
+		<div id="modal2" class="modal modal--align-top modal__bg" role="dialog" aria-hidden="true">
+			<div class="modal__dialog">
+				<div class="modal__content">
+					<h1>Big Modal</h1>
+					<h3>This modal is pretty tall.</h3>
+					<p>Selfies normcore four dollar toast four loko listicle artisan. Hoodie Marfa authentic, wayfarers church-key tofu Banksy pop-up Kickstarter Brooklyn heirloom swag synth. Echo Park cray synth mixtape. Tofu gastropub squid readymade, trust fund Wes Anderson DIY PBR 8-bit try-hard +1 Shoreditch lo-fi tote bag.</p>
+					<p><img src="http://unsplash.it/600/300" alt="" /></p>
+					<p>Mumblecore cred selfies fingerstache. Tousled skateboard plaid lo-fi shabby chic salvia, swag Odd Future Etsy art party Austin cronut. Crucifix whatever Pinterest food truck, pickled viral cray 90's DIY chambray keffiyeh biodiesel Vice blog. Cred meh yr tofu.</p>
+					<p>Mumblecore cred selfies fingerstache. Tousled skateboard plaid lo-fi shabby chic salvia, swag Odd Future Etsy art party Austin cronut. Crucifix whatever Pinterest food truck, pickled viral cray 90's DIY chambray keffiyeh biodiesel Vice blog. Cred meh yr tofu.</p>
+					<!-- modal close button -->
+					<a href="" class="modal__close demo-close">
+						<svg class="" viewBox="0 0 24 24"><path d="M19 6.41l-1.41-1.41-5.59 5.59-5.59-5.59-1.41 1.41 5.59 5.59-5.59 5.59 1.41 1.41 5.59-5.59 5.59 5.59 1.41-1.41-5.59-5.59z"/><path d="M0 0h24v24h-24z" fill="none"/></svg>
+					</a>
+				</div>
+			</div>
+		</div>
 	</body>
+	<script type="text/javascript">
+		$.ajaxSetup({
+			headers: { "X-CSRFToken": '{{csrf_token}}' }
+		});
+	</script>
 </html>
