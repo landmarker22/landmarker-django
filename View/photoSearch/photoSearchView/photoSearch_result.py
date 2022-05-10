@@ -3,9 +3,10 @@ from django.shortcuts import render
 
 def photoSearch_result(request):
     imgname = request.POST["imgname"]
-    print("이미지이름:\n",imgname)
+    print("이미지이름:\n", imgname)
 
-    placeName = '경복궁'
+    global placeName
+    placeName = '159안국'
 
     context = {
         'navi': 'parts/navi.html',
@@ -16,3 +17,6 @@ def photoSearch_result(request):
         'imgname': imgname
     }
     return render(request, 'photoSearch/photoSearch.html', context)
+
+def pname():
+    return placeName

@@ -45,7 +45,7 @@ urlpatterns = [
     path('landmarker/logout.do', home.logout, name='logout'),
 
     # 이미지 검색
-    path('landmarker/photoSearch.do${sessionScope.loginUser}', photoSearchView.photoSearch, name='photoSearch'),
+    path('landmarker/photoSearch.do', photoSearchView.photoSearch, name='photoSearch'),
     path('landmarker/photoSearch_result.do', photoSearch_result.photoSearch_result, name='photoSearch_result'),
-
+    # ${sessionScope.loginUser}
 ]
