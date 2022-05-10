@@ -18,6 +18,7 @@ from django.urls import path
 
 from View.gallery import gallery
 from View.home import home
+from View.chatbot import chatbot
 from View.photoSearch.photoSearchView import photoSearchView, photoSearch_result
 
 urlpatterns = [
@@ -26,12 +27,22 @@ urlpatterns = [
     path('landmarker/error404.do', home.error404, name='error404'),
     path('landmarker/about.do', home.about, name='about'),
     path('landmarker/gallery.do', gallery.gallery, name='gallery'),
+    path('landmarker/gallike.do', gallery.gallike, name='gallike'),
+    path('landmarker/galsearch.do', gallery.galsearch, name='galsearch'),
     path('landmarker/gdetail.do', gallery.gdetail, name='gdetail'),
     path('landmarker/contact.do', home.contact, name='contact'),
     path('landmarker/propertyAgent.do', home.propertyAgent, name='propertyAgent'),
     path('landmarker/propertyList.do', home.propertyList, name='propertyList'),
     path('landmarker/propertyType.do', home.propertyType, name='propertyType'),
     path('landmarker/testImonial.do', home.testImonial, name='testImonial'),
+    path('landmarker/chatbot.do', chatbot.chatbot, name='chatbot'),
+    path('landmarker/chattrain', chatbot.chattrain, name='chattrain'),
+    path('landmarker/chatanswer', chatbot.chatanswer, name='chatanswer'),
+
+
+    # 로그인
+    path('landmarker/login.do', home.login, name='login'),
+    path('landmarker/logout.do', home.logout, name='logout'),
 
     # 이미지 검색
     path('landmarker/photoSearch.do', photoSearchView.photoSearch, name='photoSearch'),

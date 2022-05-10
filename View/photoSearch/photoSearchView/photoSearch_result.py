@@ -32,3 +32,6 @@ def photoSearch_result(request):
         'imgname': imgname
     }
     return render(request, 'photoSearch/photoSearch.html', context)
+
+# def pname():
+#     return placeName

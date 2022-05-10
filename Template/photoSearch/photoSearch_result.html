@@ -1,53 +1,187 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-.bubble
-{
-display: none;
-position: relative;
-width: 255px;
-height: 40px;
-padding: 0px;
-background: #FFFFFF;
--webkit-border-radius: 10px;
--moz-border-radius: 10px;
-border-radius: 10px;
-border: #00B98E solid 4px;
-}
-.bubble:after
-{
-content: '';
-position: absolute;
-border-style: solid;
-border-width: 0 20px 20px;
-border-color: #FFFFFF transparent;
-display: block;
-width: 0;
-z-index: 1;
-top: -20px;
-left: 202px;
-}
-.bubble:before
-{
-content: '';
-position: absolute;
-border-style: solid;
-border-width: 0 23px 23px;
-border-color: #00B98E transparent;
-display: block;
-width: 0;
-z-index: 0;
-top: -27px;
-left: 199px;
-}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
 
-a:hover + p.bubble {
-    display: block;
+        <!-- Favicon -->
+    <link href="../static/img/favicon.ico" rel="icon">
+
+    <link rel="stylesheet" href="/static/css/chat.css">
+    <link rel="stylesheet" href="/static/css/chatstyle.css">
+    <link rel="stylesheet" href="/static/css/typing.css">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="../static/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="../static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="../static/css/style.css" rel="stylesheet">
+
+    {% block scripts %}
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>
+<!--        $(document).ready(function(){-->
+<!--            chattext = "명령어"-->
+<!--            if(chattext == "") {-->
+<!--                document.getElementById("chattext").focus();-->
+<!--                return false;-->
+<!--            }-->
+
+<!--            var strurl = "chatanswer?questext=" + chattext;-->
+<!--            //alert(strurl);-->
+<!--            //return false;-->
+
+<!--            xhr = new XMLHttpRequest();-->
+<!--            xhr.onreadystatechange = function() {-->
+<!--                if (xhr.readyState == 4) {-->
+<!--                    var data = xhr.responseText;-->
+
+<!--                    var obj = JSON.parse(data);-->
+
+<!--                    if(obj.flag == "0"){-->
+
+<!--                        bottext = "<div class='messages__item messages__item&#45;&#45;visitor'>" + obj.anstext + "</div>";-->
+<!--                        document.getElementById("chatbox__messages").innerHTML += bottext;-->
+
+<!--                        var objDiv = document.getElementById("chatbox__messages");-->
+<!--                        objDiv.scrollTop = objDiv.scrollHeight;-->
+
+<!--                        document.getElementById("chattext").value = "";-->
+<!--                        document.getElementById("chattext").focus();-->
+
+<!--                    }-->
+<!--                }-->
+<!--            };-->
+<!--            xhr.open("GET", strurl);-->
+<!--            xhr.setRequestHeader("X-CSRFToken", csrftoken);-->
+<!--            xhr.send(null);-->
+<!--	    })-->
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        var xhr;
+
+        function sendAsk() {
+            chattext = document.getElementById("chattext").value;
+            if(chattext == "") {
+                document.getElementById("chattext").focus();
+                return false;
+            }
+
+            addtext = "<div class='messages__item messages__item--operator' style='font-size: smaller'>" + chattext + "</div>";
+            document.getElementById("chatbox__messages").innerHTML += addtext;
+
+            var strurl = "chatanswer?questext=" + chattext;
+            //alert(strurl);
+            //return false;
+
+            xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    var data = xhr.responseText;
+
+                    var obj = JSON.parse(data);
+
+                    if(obj.flag == "0"){
+
+                        bottext = "<div class='messages__item messages__item--visitor' style='font-size: smaller'>" + obj.anstext + "</div>";
+                        document.getElementById("chatbox__messages").innerHTML += bottext;
+
+                        var objDiv = document.getElementById("chatbox__messages");
+                        objDiv.scrollTop = objDiv.scrollHeight;
+
+                        document.getElementById("chattext").value = "";
+                        document.getElementById("chattext").focus();
+
+                    }
+                }
+            };
+            xhr.open("GET", strurl);
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            xhr.send(null);
+        }
+
+        function chatTrain() {
+
+                var strurl = "chattrain";
+            alert(strurl);
+            //return false;
+
+            xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    var data = xhr.responseText;
+
+                    var obj = JSON.parse(data);
+                    alert(obj.result_msg);
+                }
+            };
+            xhr.open("GET", strurl);
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            xhr.send(null);
+        };
+
+        function adbClick() {
+            document.getElementById("chattext").value = "주소";
+            sendAsk();
+        };
+
+        function webClick() {
+            document.getElementById("chattext").value = "날씨";
+            sendAsk();
+        };
+
+        function rebClick() {
+            document.getElementById("chattext").value = "맛집";
+            sendAsk();
+        };
+
+        </script>
+    {% endblock %}
+
+    {% block styles %}
+<style>
+#map{
+z-index: 1;
+position: relative;
 }
 </style>
+{% endblock %}
+</head>
 <body>
         <!-- Contact Start -->
+
         <div class="container-xxl py-5">
             <div class="container">
                 <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s">
@@ -55,10 +189,9 @@ a:hover + p.bubble {
                     <h1 style="display:inline" class="m-0 text-primary">{{placeName}}</h1>
                     <h4 style="display:inline" class="mb-3">입니다!</h4>
                 </div>
+                   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e767e4f84d36371c93bbda34a8b90402&libraries=services,clusterer,drawing"></script>
+                <div id="map" style="width:100%;height:600px;" ></div>
 
-                <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e767e4f84d36371c93bbda34a8b90402&libraries=services,clusterer,drawing"></script>
-
-<div id="map" style="width:100%;height:500px;"></div>
 
 <script>
 // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
@@ -120,23 +253,51 @@ function displayMarker(place) {
 }
 </script>
 
-                <form method="post" action="photoSearch_result.do">
-                {% csrf_token %}
-                    <div align="center">
-                        <br>
-                        <input id="imgname" type="hidden" value="{{imgname}}" name="imgname">
-                        <input id="placeName" type="hidden" value="{{placeName}}" name="placeName">
+{% csrf_token %}
+    <div align="center">
+        <br>
+        <input id="placeName" type="hidden" value="{{placeName}}" name="placeName">
+   <div align="right">
+    <a class="btn btn-lg btn-primary btn-lg-square" id="chatbox__button"><img src="/static/images/chatboticon2.png" style="width:30px; height:30px"/>
+    </a>
+</div>
+
+        <div class="chatbox">
+            <div class="chatbox__support">
+                <div class="chatbox__header">
+                    <div class="chatbox__image--header">
+                        <img src="/static/images/chatboticon2.png" onclick="chatTrain();" alt="image" style="width:30px; height:30px">
                     </div>
-                </form>
-                <div align="right">
-                    <a href="#" class="btn btn-lg btn-primary btn-lg-square">
-                        <i class="bi bi-chat-dots-fill"></i>
-                    </a>
-                    <p style="font-size:22px;" class="btn btn-primary bubble text-primary">클릭 시 챗봇 활성화!</p>
+                    <div class="chatbox__content--header" style="padding-top: 10px;">
+                        <div class="chatbox__heading--header">LandMarTalk</div>
+                    </div>
+<!--                    <div><img src="/static/images/closeicon2.png" onclick="" alt="image" style="width:20px; height:20px"></div>-->
+                </div>
+                <div id="chatbox__messages" style="padding: 10px;">
+                    <!-- 메시지 출력 부분 -->
+                    <div class="messages__item messages__item--visitor">
+                        찾으시는 곳이 <h4>{{placeName}}</h4> 이네요 아래명령어로 검색해보세요!
+                    </div>
+                    <div class="messages__item messages__item--visitor">
+                        '명령어 알려줘' <br>
+                        <button onclick="adbClick();" style="padding:3px; border: 0.1px solid #ECEDEE; background-color: #F6F7F8; margin-top: 10px;">'주소 알려줘'</button><br>
+                        <button onclick="webClick();" style="padding:3px; border: 0.1px solid #ECEDEE; background-color: #F6F7F8;">'날씨 알려줘' </button><br>
+                        <button onclick="rebClick();" style="padding:3px; border: 0.1px solid #ECEDEE; background-color: #F6F7F8;">'맛집 알려줘' </button><br>
+
+                    </div>
+                </div>
+                    <div class="chatbox__footer">
+                    <input type="text" id="chattext" placeholder="Write a message..." style="width: 80%;" onkeyup="if(window.event.keyCode==13){sendAsk()}">
+<!--                        <a style="cursor:pointer" onclick="sendAsk()" id="sendbtn" class="chatbox__send&#45;&#45;footer">SEND</a>-->
+                        <button style="cursor:pointer" onclick="sendAsk()" id="sendbtn" type="button">전송</button>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </body>
-
+<script src="/static/js/Chat.js"></script>
+<script src="/static/js/app.js"></script>
 </html>
