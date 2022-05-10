@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -147,6 +148,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
 os.path.join(BASE_DIR, 'static')
 ]
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = 1048576 * 10  # 1 MB * 10
 
 UPLOAD_DIR = os.path.join(BASE_DIR, 'static/img')
 
