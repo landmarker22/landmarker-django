@@ -86,7 +86,7 @@ def select_one(g_no, u_no):
         result = cursor.execute(query)
 
         for row in result:
-            row_dict = {'cu_name': row[6], 'content': row[3], 'c_date': row[4].strftime('%Y-%m-%d %H:%M:%S')}
+            row_dict = {'cu_name': row[6], 'content': row[3], 'c_date': row[4].strftime('%Y-%m-%d %H:%M:%S'), 'ru_no': row[0]}
             # print('comment row_dict : ', row_dict)
 
             comment_list.append(row_dict)

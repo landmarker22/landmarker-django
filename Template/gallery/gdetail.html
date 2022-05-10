@@ -139,9 +139,9 @@ img{
     object-fit: cover;
 }
 .box1 {
-   float:left; width:65%; height: 100%;}
+   float:left; width:65%; height: 90vh; object-fit: cover;}
 .box2 {
-      float:right; width:35%; height: 900px; padding-top: 1%;}
+      float:right; width:35%; height: 90vh; padding-top: 1%;}
 .block1 {
         padding-left: 2%;
         padding-right: 2%;
@@ -150,9 +150,9 @@ img{
         }
 .block2{
     -ms-overflow-style: none;
+    height: 60%;
     padding-left: 2%;
     padding-right: 2%;
-    height: 650px;
     overflow-y: auto;
     font-size: 13px;
 }
@@ -164,13 +164,13 @@ img{
     padding-right: 2%;
     padding-bottom: 15%;
     margin-top: -5px;
-    height: 90px;
+    height: 7%;
 }
 .block4 {
     padding-left: 2%;
     padding-right: 0%;
     margin-top: -9px;
-    height: 40px;
+    height: 10%;
 }
 .icons {
     margin-left: 1px;
@@ -182,7 +182,9 @@ img{
     margin-right: 5px;
     font-weight: bold;
 }
-
+.modal-content {
+    height:90vh;
+}
 </style>
 <div class="modal-content">
       <div class="modal-body" style="margin: -16px;">
@@ -197,7 +199,11 @@ img{
                 <div class="detail_nick">{{detail.gu_name}}</div>{{detail.content}}
                 <br><br>
                 {% for c in comment %}
-                <div class="detail_nick">{{c.cu_name}}</div>{{c.content}}<br><br>
+                <div class="detail_nick">{{c.cu_name}}</div>{{c.content}}
+                {% if c.ru_no == user.user_no %}
+                    <button type="button" id="reply-del-btn" class="btn btn-link" style="float: right; font-size: 10px;">삭제</button>
+                {% endif %}
+                <br><br>
                 {% endfor %}
             </div>
             <hr style="height: 0.5px;">
@@ -217,7 +223,7 @@ img{
             </div>
             <hr style="height: 0.5px;">
             <div class="block4">
-                <div style="float: left; width: 78%;" ><textarea class="form-control" id="reply_text" rows="1" style="border: none; resize: none; font-size: 15px;"  placeholder="댓글 달기..."></textarea></div>
+                <div style="float: left; width: 60%;" ><textarea class="form-control" id="reply_text" rows="1" style="border: none; resize: none; font-size: 15px;"  placeholder="댓글 달기..."></textarea></div>
                 <div style="float: right; display: inline;">
                 <div class="col-auto">
                   <button type="button" id="reply_btn" class="btn btn-link" style="float: right; font-size: 15px;">게시</button>

@@ -93,7 +93,7 @@ def gdetail(request):
         data = gcontroller.select_one(request.GET['g_no'], user.get('user_no'))
     else:
         data = gcontroller.select_one(request.GET['g_no'], user)
-
+    print(data)
     context = {
         'detail': data[0],
         'comment': data[1],
