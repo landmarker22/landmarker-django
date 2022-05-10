@@ -15,7 +15,6 @@ background: #FFFFFF;
 border-radius: 10px;
 border: #00B98E solid 4px;
 }
-
 .bubble:after
 {
 content: '';
@@ -29,7 +28,6 @@ z-index: 1;
 top: -20px;
 left: 202px;
 }
-
 .bubble:before
 {
 content: '';
@@ -43,8 +41,9 @@ z-index: 0;
 top: -27px;
 left: 199px;
 }
+
 a:hover + p.bubble {
-  display: block;
+    display: block;
 }
 </style>
 <body>
@@ -121,12 +120,12 @@ function displayMarker(place) {
 }
 </script>
 
-                <form method="post" action="photoSearch_result">
+                <form method="post" action="photoSearch_result.do">
                 {% csrf_token %}
                     <div align="center">
                         <br>
+                        <input id="imgname" type="hidden" value="{{imgname}}" name="imgname">
                         <input id="placeName" type="hidden" value="{{placeName}}" name="placeName">
-                        <input style="background-color:#FF8A93; border-color:#FF8A93;" class="btn btn-primary nav-item nav-link active" type="submit" value="잘못된 결과 신고하기">
                     </div>
                 </form>
                 <div align="right">

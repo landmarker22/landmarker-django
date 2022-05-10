@@ -78,7 +78,7 @@ def run(image):
         A.Normalize()
     ])
 
-    test_files = [testPath + 'test/' + filePath]
+    test_files = [filePath]
 
     test_dataset = TestDataset(file_lists=test_files, transforms=test_transforms_)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
@@ -90,10 +90,22 @@ def run(image):
     model.eval()
 
     result = []
+    result_index = []
     with torch.no_grad():
         for iter_idx, test_imgs in enumerate(test_loader, 1):
             test_imgs = test_imgs.to(device)
             test_pred = model(test_imgs)
 
-            result.append(class_decoder[np.argmax(test_pred.cpu(), axis=-1).item()])
+            soltpred = np.sort(test_pred[0])
+            pred3 = soltpred[-3:]
+            valuelist = [pred3[-1], pred3[-2], pred3[-3]]
+            print("확인")
+            print(valuelist)
+
+            for i in range(3):
+                result_index.append(np.where(test_pred[0] == valuelist[i]))
+                result.append(class_decoder[result_index[i][0][0]])
+
+            # result.append(class_decoder[np.argmax(test_pred.cpu(), axis=-1).item()])
+
     return result

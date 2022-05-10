@@ -71,15 +71,15 @@ span:hover + p.arrow_box {
 }
 </style>
 <script>
-	function validation(){
-		var value = document.getElementById("imgname").value;
-		if(value == ""){
-			alert('이미지를 등록해주십시오.')
-			return false;
-		} else{
-			return;
-		}
+function validation(){
+	var value = document.getElementById("imgname").value;
+	if(value == ""){
+		alert('이미지를 등록해주십시오.')
+		return false;
+	} else{
+		return;
 	}
+}
 </script>
 	<body>
 	    <div class="container-xxl bg-white p-0">
@@ -109,15 +109,17 @@ span:hover + p.arrow_box {
 						{% csrf_token %}
 							<div id="drop" align="center">
 								<div id="thumbnails">
-									<img id="img" width="100%" height="100%" src="../static/img/dropimg.png">
+									<label for="chooseFile">
+									<img id="img" width="100%" height="442px;" src="../static/img/dropimg.png">
+									</label>
 									<input id="imgname" name="imgname" type="hidden" value="">
 								</div>
+								<input hidden="hidden" type="file" id="chooseFile" name="chooseFile" accept="image/*" onchange="loadFile()">
 								<br>
 							</div>
-							<div align="center">
-								<input id="btnSubmit" class="btn btn-primary nav-item nav-link active" type="submit" value="검색하기" onclick="return validation()">
+							<div align="center" id="airesult">
+								<button id="btnSubmit" class="btn btn-primary nav-item nav-link active" type="button" onclick="return validation()">검색하기</button>
 							</div>
-
 						</form>
 
 					</div>
@@ -155,37 +157,68 @@ span:hover + p.arrow_box {
 				var reader = new FileReader();
 				reader.onload = (function(f, idx) {
 					return function(e) {
-					var div = '<div class="thumb"> \
-						<img id="img" width="100%" height="100%" type="image" src="' + e.target.result + '" title="' + escape(f.name) + '"/> \
-						<a class="btn btn-primary nav-item nav-link active" href="" class="close" data-idx="' + idx + '">사진 다시 업로드하기</a> \
-						<input id="imgname" name="imgname" type="hidden" value="' + e.target.result + '" title="' + escape(f.name) + '"/> \
-						<br>\
-						</div>';
+					var div = '<div class="thumb" style="max-width:901px; height:442px;"> \
+					  <img id="img" style="width:100%; height:100%; object-fit:cover;" type="image" src="' + e.target.result + '" title="' + escape(f.name) + '"/> \
+					  </div>\
+					  <div style="max-width:901px;">\
+					  <a style="width:100%;" class="btn btn-primary nav-item nav-link active" class="close" href="" data-idx="' + idx + '">사진 다시 업로드하기</a> \
+					  </div>\
+					  <input id="imgname" name="imgname" type="hidden" value="' + e.target.result + '" title="' + escape(f.name) + '"/> \
+					  <br>';
 					document.getElementById('thumbnails').innerHTML = div;
 					};
 				})(file, idx);
 				reader.readAsDataURL(file);
 			}
 
-			<!--$("#btnSubmit").on("click", function() {-->
-			<!--    var formData = new FormData();-->
-			<!--    $.each(uploadFiles, function(i, file) {-->
-			<!--        if(file.upload != 'disable') //삭제하지 않은 이미지만 업로드 항목으로 추가-->
-			<!--            formData.append('upload-file', file, file.name);-->
-			<!--    });-->
-			<!--    $.ajax({-->
-			<!--        url: 'form',-->
-			<!--        data : formData,-->
-			<!--        type : 'post',-->
-			<!--        enctype: 'multipart/form-data',-->
-			<!--        contentType : false,-->
-			<!--        processData: false,-->
-			<!--        cache: false,-->
-			<!--        success : function(data) {-->
-			<!--            alert("완료");-->
-			<!--        }-->
-			<!--    });-->
-			<!--});-->
+			function loadFile(){
+				var file = document.getElementById("chooseFile").files[0];
+				var size = uploadFiles.push(file);
+				preview(file, size); //미리보기 만들기
+			}
+
+			$(document).on("click", "#btnSubmit", function() {
+
+			    var formData = new FormData($("#form")[0]);
+
+				formData.append("uploadFiles", uploadFiles[0])
+
+			    $.ajax({
+			        url: 'photoSearch_ai.do',
+			        data : formData,
+			        type : 'post',
+			        enctype: 'multipart/form-data',
+			        contentType : false,
+			        processData: false,
+			        cache: false,
+			        success : function(data) {
+			        	var div = '<b style="font-size:24px;opacity:0.7; margin-bottom:10px;">예측 결과(정확도 높은 순서)</b>'
+			        		div += '<br><b style="font-size:24px;opacity:0.7; margin-bottom:10px;">랜드마크 이름을 클릭해주세요.</b>'
+
+			        		div += '<div class="col-lg-12 col-md-12"><input style="font-size:40px; font-weight:900; background-color:white; border-color:white; margin:10px; display:inline" class="btn btn-primary nav-item nav-link active text-primary" type="submit" name="landmark" value="'
+							div += data[0][0]
+							div += '"></div>'
+
+							div += '<input style="font-size:24px; opacity:0.6; background-color:white; border-color:white; margin:10px; display:inline" class="btn btn-primary nav-item nav-link active text-primary" type="submit" name="landmark" value="'
+							div += data[0][1]
+							div += '">'
+
+							div += '<input style="font-size:24px; opacity:0.6; background-color:white; border-color:white; margin:10px; display:inline" class="btn btn-primary nav-item nav-link active text-primary" type="submit" name="landmark" value="'
+							div += data[0][2]
+							div += '"><br><br>'
+
+							div += '<input hidden="hidden" style="font-size:30px; background-color:white; border-color:white; margin:10px; display:inline" class="btn btn-primary nav-item nav-link active text-primary" type="text" name="imgfilename" value="'
+							div += data[1]
+							div += '">'
+
+							div += '<input style="background-color:#FF8A93; border-color:#FF8A93;" class="btn btn-primary nav-item nav-link active" type="submit" name="landmark" value="잘못된 결과 신고하기">'
+
+
+
+						document.getElementById('airesult').innerHTML = div;
+			        }
+			    });
+			});
 
 			$("#thumbnails").on("click", ".close", function(e) {
 				var $target = $(e.target);
