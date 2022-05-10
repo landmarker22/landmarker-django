@@ -70,7 +70,7 @@
                 "background-repeat" : "no-repeat",
                 "background-position" : "center"
             });
-            $('#modal_add_feed').css({
+            $('#before_photo').css({
                 display: 'none'
             })
         }else{
@@ -82,8 +82,7 @@
     $('#button_write_feed').on('click', ()=>{
         const image = $('#input_image').css("background-image").replace(/^url\(['"](.+)['"]\)/, '$1');
         const content = $('#input_content').val();
-        const profile_image = $('#input_profile_image').attr('src');
-        const user_id = $('#input_user_id').text();
+        const user_name = $('#input_user_name').text();
 
         const file = files[0];
 
@@ -92,8 +91,12 @@
         fd.append('file', file);
         fd.append('image', image);
         fd.append('content', content);
-        fd.append('profile_image', profile_image);
-        fd.append('user_id', user_id);
+        fd.append('user_name', user_name);
+
+        console.log(fd.get('file'));
+        console.log(fd.get('image'));
+        console.log(fd.get('content'));
+        console.log(fd.get('user_name'));
 
         if(image.length <= 0)
         {
@@ -103,13 +106,9 @@
         {
             alert("설명을 입력하세요");
         }
-        else if(profile_image.length <= 0)
+        else if(user_name.length <= 0)
         {
-            alert("프로필 이미지가 비어있습니다.");
-        }
-        else if(user_id.length <= 0)
-        {
-            alert("사용자 id가 없습니다.");
+            alert("사용자가 없습니다.");
         }
         else{
             writeFeed(fd);
@@ -119,34 +118,33 @@
 
     function writeFeed(fd) {
         $.ajax({
-            url: "/content/upload",
+            url: "gupload.do",
             data: fd,
             method: "POST",
             processData: false,
             contentType: false,
             success: function (data) {
-                console.log("성공");
+                $("#detailModal").css({ display:"none" });
+                document.body.style.overflowY = "visible";
+                $(".nav-bar").css('display', 'block');
             },
             error: function (request, status, error) {
                 console.log("에러");
+                console.log(request);
+                console.log(status);
+                console.log(error);
             },
             complete: function() {
-                console.log("무조건실행");
-                closeModal();
+<!--                console.log("무조건실행");-->
+<!--                $("#detailModal").css({ display:"none" });-->
+<!--                document.body.style.overflowY = "visible";-->
+<!--                $(".nav-bar").css('display', 'block');-->
                 location.reload();
             }
         })
     };
 </script>
 <style>
-    .modal_image_upload{
-        outline: 2px dashed black ;
-        outline-offset:-10px;
-        text-align: center;
-        transition: all .15s ease-in-out;
-        width:100%;
-        height:95%;
-    }
     .main_body {
         display: flex;
         justify-content: center;
@@ -294,18 +292,7 @@
 
 
     .modal {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
         display: none;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(1.5px);
-        -webkit-backdrop-filter: blur(1.5px);
     }
 
     .modal_window {
@@ -338,8 +325,8 @@
         outline: 2px dashed black ;
         outline-offset:-10px;
         transition: all .15s ease-in-out;
-        width: 798px;
-        height: 548px;
+        width: 800px;
+        height: 100%;
         text-align: center;
         line-height: 548px;
     }
@@ -371,7 +358,7 @@
     }
 </style>
 
-<div class="modal-content">
+<div class="modal-content" id="before_photo">
     <div class="modal-body" style="margin: -16px;">
         <div class="modal_title">
             <div class="modal_title_side"></div>
@@ -387,8 +374,8 @@
     </div>
 </div>
 
-<div id="modal_add_feed_content" class="modal modal_overlay_content">
-    <div class="modal_window">
+<div id="modal_add_feed_content" class="modal-content modal modal_overlay_content">
+    <div class="modal-body" style="margin: -16px;">
         <div class="modal_title">
             <div class="modal_title_side"></div>
             <div style="margin: 5px"> 새 게시물 </div>
@@ -404,7 +391,7 @@
 <!--                    <div class="profile_box">-->
 <!--                        <img id="input_profile_image" class="profile_img" src="https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/s1080x2048/165180104_277246477102900_6106347261862438192_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=730e14&_nc_ohc=1sN4d8i7rn8AX-7aKYN&_nc_ht=scontent-ssn1-1.xx&oh=5049b7cd176848e330b0f5ea95f28172&oe=615A08D1">-->
 <!--                    </div>-->
-                    <span id="input_user_id" class="feed_name_txt"> {{user.user_name}} </span>
+                    <span id="input_user_name" class="feed_name_txt"> {{user.user_name}} </span>
                 </div>
                 <div style="height: 440px">
                     <textarea id="input_content" class="feed_content_textarea form-control col-sm-5" rows="10" placeholder="설명을 입력하세요..."></textarea>

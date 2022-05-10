@@ -6,7 +6,6 @@ import common.oracle_db as odb
 import Model.gallery.gallery_class as gclass
 
 def select_all(u_no, ob):
-    print("갤러리페이지 유저 : ", u_no, type(u_no))
     conn = odb.connect()
     cursor = None
     gallery_list = []
@@ -42,7 +41,7 @@ def select_all(u_no, ob):
 
     except Exception as msg:
         print('Gallery select_all() 에러 발생 : ', msg)
-    print('str(user.get())', str(u_no))
+
     query = 'SELECT * ' \
             'FROM L_LIKE ' \
             'WHERE USER_NO = ' + str(u_no)
@@ -57,7 +56,7 @@ def select_all(u_no, ob):
     finally:
         cursor.close()
         odb.close(conn)
-    print('like_result : ', like_result)
+
     if int(u_no) > 0:
         for g in gallery_list:
             for l in like_result:
@@ -70,7 +69,6 @@ def select_all(u_no, ob):
         for g in gallery_list:
             g['like'] = 0
 
-    print('gallery_list : ', gallery_list)
     return gallery_list
 
 def select_one(g_no, u_no):
@@ -165,6 +163,28 @@ def select_one(g_no, u_no):
     # print('comment_list : ', comment_list)
     return detail, comment_list, like_count, like, c_count_result
     # return detail_result, comment_result, c_count_result
+
+def insert_gallery(dic):
+    conn = odb.connect()
+    cursor = None
+
+    query = "INSERT INTO L_GALLERY VALUES(L_GN_S.NEXTVAL, " + \
+            str(dic['user_no']) + ", '" + dic.get('content') + "', '" + dic.get('image') + \
+            "', '#테스트해시', DEFAULT, DEFAULT)"
+
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+
+    except Exception as msg:
+        print('Detail insert_gallery() 에러 발생 : ', msg)
+
+    finally:
+        cursor.close()
+        odb.close(conn)
+
+    return '댓글작성완료'
 
 def insert_reply(g_no, u_no, reply):
     conn = odb.connect()

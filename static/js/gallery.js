@@ -4,7 +4,6 @@ $.ajaxSetup({
 $(function(){
     $("#gwrite-btn").click(function(){
         var u_no = $("#gwrite-btn").attr('data-id');
-        u_no = 8;
         console.log('u_no : ' + u_no);
         if(u_no == ''){
             alert('로그인이 필요합니다.');
