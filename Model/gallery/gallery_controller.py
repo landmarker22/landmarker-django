@@ -1,9 +1,6 @@
-from datetime import datetime
-from datetime import datetime
-
-import cx_Oracle
 import common.oracle_db as odb
 import Model.gallery.gallery_class as gclass
+
 
 def select_all(u_no, ob):
     conn = odb.connect()
@@ -27,10 +24,16 @@ def select_all(u_no, ob):
         # 각 행을 하나씩 추출해서, Gallery 클래스 객체 생성함
         # 행의 컬럼값들을 꺼내서 Gallery 인스턴스의 초기값으로 설정
         for row in result:
+            if row[9] is None:
+                print("None 발견!!!")
+                r9 = '여행의 첫걸음'
+            else:
+                print("아니네?")
+                r9 = row[9]
             # print(type(row[6].strftime('%Y-%m-%d, %H:%M:%S')))
             row_dict = {'g_no': row[1], 'u_no': row[0], 'content': row[2],
                         'photopath': row[3], 'hashtag': row[4], 'rcount': row[5],
-                        'date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'u_name': row[8]}
+                        'date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'u_name': row[8], 'u_badge': r9}
             # print('row_dict : ', row_dict)
 
             # ref = gclass.Gallery(row_dict)  # Gallery 객체 생성
@@ -71,6 +74,7 @@ def select_all(u_no, ob):
 
     return gallery_list
 
+
 def select_one(g_no, u_no):
     comment_list = []
     conn = odb.connect()
@@ -86,7 +90,8 @@ def select_one(g_no, u_no):
         result = cursor.execute(query)
 
         for row in result:
-            row_dict = {'cu_name': row[6], 'content': row[3], 'c_date': row[4].strftime('%Y-%m-%d %H:%M:%S'), 'ru_no': row[0]}
+            row_dict = {'cu_name': row[6], 'content': row[3], 'c_date': row[4].strftime('%Y-%m-%d %H:%M:%S'),
+                        'ru_no': row[0], 'c_no': row[1]}
             # print('comment row_dict : ', row_dict)
 
             comment_list.append(row_dict)
@@ -164,13 +169,18 @@ def select_one(g_no, u_no):
     return detail, comment_list, like_count, like, c_count_result
     # return detail_result, comment_result, c_count_result
 
+
 def insert_gallery(dic):
     conn = odb.connect()
     cursor = None
 
+    if dic.get('hashtag')[0] != '#':
+        hashtag = '#' + dic.get('hashtag')
+    else:
+        hashtag = dic.get('hashtag')
     query = "INSERT INTO L_GALLERY VALUES(L_GN_S.NEXTVAL, " + \
-            str(dic['user_no']) + ", '" + dic.get('content') + "', '" + dic.get('image') + \
-            "', '#테스트해시', DEFAULT, DEFAULT)"
+            str(dic['user_no']) + ", '" + str(dic['content']) + "', '" + str(dic['image']) + \
+            "', '" + hashtag + "', DEFAULT, DEFAULT)"
 
     try:
         cursor = conn.cursor()
@@ -184,13 +194,15 @@ def insert_gallery(dic):
         cursor.close()
         odb.close(conn)
 
-    return '댓글작성완료'
+    return '갤러리작성완료'
+
 
 def insert_reply(g_no, u_no, reply):
     conn = odb.connect()
     cursor = None
-
-    query = "INSERT INTO L_COMMENT VALUES(L_CN_S.NEXTVAL, " + str(g_no) + ", " + str(u_no) + ", " + reply + ", DEFAULT)"
+    print("??????????????????????????????????????", g_no, u_no, reply)
+    query = "INSERT INTO L_COMMENT VALUES(L_CN_S.NEXTVAL, " + str(g_no) + ", " + str(u_no) + ", '" + str(
+        reply) + "', DEFAULT)"
 
     try:
         cursor = conn.cursor()
@@ -207,13 +219,92 @@ def insert_reply(g_no, u_no, reply):
     return '댓글작성완료'
 
 
+def modify_gallery(dic):
+    conn = odb.connect()
+    cursor = None
+
+    if dic.get('hashtag')[0] != '#':
+        hashtag = '#' + dic.get('hashtag')
+    else:
+        hashtag = dic.get('hashtag')
+
+    query = "update l_gallery set gallery_content = '" + dic['content'] + "', " + \
+            "hashtag = '" + hashtag + "' where gallery_no = " + str(dic.get('g_no'))
+
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+
+    except Exception as msg:
+        print('Detail modify_gallery() 에러 발생 : ', msg)
+
+    finally:
+        cursor.close()
+        odb.close(conn)
+
+    return '갤러리수정완료'
+
+
+def delete_gallery(g_no):
+    conn = odb.connect()
+    cursor = None
+
+    query = "delete from l_comment where gallery_no = " + str(g_no)
+
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+
+    except Exception as msg:
+        print('Detail delete_gallery_comment() 에러 발생 : ', msg)
+
+    query = "delete from l_gallery where gallery_no = " + str(g_no)
+
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+
+    except Exception as msg:
+        print('Detail delete_gallery() 에러 발생 : ', msg)
+
+    finally:
+        cursor.close()
+        odb.close(conn)
+
+    return '갤러리삭제완료'
+
+
+def delete_reply(c_no):
+    conn = odb.connect()
+    cursor = None
+
+    query = "delete from L_COMMENT where comment_no = " + str(c_no)
+
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+
+    except Exception as msg:
+        print('Detail delete_reply() 에러 발생 : ', msg)
+
+    finally:
+        cursor.close()
+        odb.close(conn)
+
+    return '댓글삭제완료'
+
+
 def gallike(g_no, u_no, onoff):
     conn = odb.connect()
     cursor = None
 
     if onoff == '1':
         query = 'DELETE FROM L_LIKE ' \
-                'WHERE GALLERY_NO = ' + g_no + ' AND USER_NO = ' + str(u_no)
+                'WHERE GALLERY_NO = ' + str(g_no) + ' AND USER_NO = ' + str(u_no)
         try:
             cursor = conn.cursor()
             cursor.execute(query)
@@ -226,7 +317,7 @@ def gallike(g_no, u_no, onoff):
 
     else:
         query = 'INSERT INTO L_LIKE ' \
-                'VALUES(' + str(u_no) + ', ' + g_no + ')'
+                'VALUES(' + str(u_no) + ', ' + str(g_no) + ', DEFAULT)'
         try:
             cursor = conn.cursor()
             cursor.execute(query)
@@ -239,6 +330,7 @@ def gallike(g_no, u_no, onoff):
 
     return '좋아요 변경됨'
 
+
 def search(s):
     conn = odb.connect()
     cursor = None
@@ -248,7 +340,7 @@ def search(s):
             'FROM L_GALLERY ' \
             'JOIN L_USER USING (USER_NO)' \
             "WHERE HASHTAG LIKE '%" + s + "%' " \
-            "ORDER BY GALLERY_DATE DESC"
+                                          "ORDER BY GALLERY_DATE DESC"
     try:
         cursor = conn.cursor()
         result = cursor.execute(query)

@@ -50,10 +50,13 @@ urlpatterns = [
     path('landmarker/gallery.do', gallery.gallery, name='gallery'),
     path('landmarker/gwrite.do', gallery.gwrite, name='gwrite'),
     path('landmarker/gupload.do', gallery.gupload, name='gupload'),
+    path('landmarker/gmodify.do', gallery.gmodify, name='gmodify'),
+    path('landmarker/gdelete.do', gallery.gdelete, name='gdelete'),
     path('landmarker/gallike.do', gallery.gallike, name='gallike'),
     path('landmarker/galsearch.do', gallery.galsearch, name='galsearch'),
     path('landmarker/gdetail.do', gallery.gdetail, name='gdetail'),
     path('landmarker/galreply.do', gallery.galreply, name='galreply'),
+    path('landmarker/delreply.do', gallery.delreply, name='delreply'),
     path('landmarker/gdetailview.do', gallery.gdetailview, name='gdetailview'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

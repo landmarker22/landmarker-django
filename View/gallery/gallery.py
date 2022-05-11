@@ -66,22 +66,48 @@ def gwrite(request):
 def gupload(request):
     file = request.FILES['file']
     uuid_name = uuid4().hex+'.'+(file._name).split('.')[1]
-    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', uuid_name)
-    save_path = os.path.join('./static/gallery_images/', uuid_name)
+    # print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', uuid_name)
+    save_path = os.path.join("./static/gallery_images", uuid_name)
     with open(save_path, 'wb+') as destination:
         for chunk in file.chunks():
             destination.write(chunk)
-    content = request.POST['content']
     image = uuid_name
+    content = request.POST['content']
+    hashtag = request.POST['hashtag']
+
     # profile_image = request.data.get('profile_image')
     user_name = request.POST['user_name']
 
-    # Feed.objects.create(content=content, image=image, user_id=user_id, like_count=0)
     user = lc.userLoad(request)
 
-    if (user != 0):
-        gal = {'content': content, 'image': image, 'user_name': user_name, 'user_no': user.get('user_no')}
+    if user != 0:
+        gal = {'content': content, 'hashtag': hashtag, 'image': image, 'user_name': user_name, 'user_no': user.get('user_no')}
         gcontroller.insert_gallery(gal)
+    else:
+        print('유저세션 없음')
+
+    return 0
+
+def gmodify(request):
+    content = request.POST['content']
+    hashtag = request.POST['hashtag']
+    g_no = request.POST['g_no']
+    user = lc.userLoad(request)
+
+    if user != 0:
+        gal_modi = {'content': content, 'hashtag': hashtag, 'g_no': g_no}
+        gcontroller.modify_gallery(gal_modi)
+    else:
+        print('유저세션 없음')
+
+    return 0
+
+def gdelete(request):
+    print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', request)
+    g_no = request.POST['g_no']
+    user = lc.userLoad(request)
+    if user != 0:
+        gcontroller.delete_gallery(g_no)
     else:
         print('유저세션 없음')
 
@@ -89,7 +115,7 @@ def gupload(request):
 
 def gdetail(request):
     user = lc.userLoad(request)
-    if(user != 0):
+    if user != 0:
         data = gcontroller.select_one(request.GET['g_no'], user.get('user_no'))
     else:
         data = gcontroller.select_one(request.GET['g_no'], user)
@@ -109,6 +135,25 @@ def gdetail(request):
 def galreply(request):
     user = lc.userLoad(request)
     gcontroller.insert_reply(request.POST['g_no'], request.POST['u_no'], request.POST['reply'])
+    if(user != 0):
+        data = gcontroller.select_one(request.POST['g_no'], user.get('user_no'))
+    else:
+        data = gcontroller.select_one(request.POST['g_no'], user)
+
+    context = {
+        'detail': data[0],
+        'comment': data[1],
+        'like_count': data[2][0],
+        'like': data[3][0],
+        'c_count': data[4][0],
+        'user': user
+    }
+
+    return render(request, 'gallery/gdetail.html', context)
+
+def delreply(request):
+    user = lc.userLoad(request)
+    gcontroller.delete_reply(request.POST['c_no'])
     if(user != 0):
         data = gcontroller.select_one(request.POST['g_no'], user.get('user_no'))
     else:
