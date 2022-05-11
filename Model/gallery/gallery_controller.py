@@ -25,10 +25,8 @@ def select_all(u_no, ob):
         # 행의 컬럼값들을 꺼내서 Gallery 인스턴스의 초기값으로 설정
         for row in result:
             if row[9] is None:
-                print("None 발견!!!")
                 r9 = '여행의 첫걸음'
             else:
-                print("아니네?")
                 r9 = row[9]
             # print(type(row[6].strftime('%Y-%m-%d, %H:%M:%S')))
             row_dict = {'g_no': row[1], 'u_no': row[0], 'content': row[2],
@@ -110,9 +108,13 @@ def select_one(g_no, u_no):
         result = cursor.execute(query)
 
         for row in result:
+            if row[9] is None:
+                r9 = '여행의 첫걸음'
+            else:
+                r9 = row[9]
             row_dict = {'u_no': row[0], 'g_no': row[1], 'content': row[2],
                         'photopath': row[3], 'hashtag': row[4], 'rcount': row[5],
-                        'g_date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'gu_name': row[8]}
+                        'g_date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'gu_name': row[8], 'gu_badge': r9}
             # print('detail row_dict : ', row_dict)
 
         #     detail_list.append(row_dict)
@@ -200,7 +202,7 @@ def insert_gallery(dic):
 def insert_reply(g_no, u_no, reply):
     conn = odb.connect()
     cursor = None
-    print("??????????????????????????????????????", g_no, u_no, reply)
+
     query = "INSERT INTO L_COMMENT VALUES(L_CN_S.NEXTVAL, " + str(g_no) + ", " + str(u_no) + ", '" + str(
         reply) + "', DEFAULT)"
 
@@ -340,7 +342,7 @@ def search(s):
             'FROM L_GALLERY ' \
             'JOIN L_USER USING (USER_NO)' \
             "WHERE HASHTAG LIKE '%" + s + "%' " \
-                                          "ORDER BY GALLERY_DATE DESC"
+            "ORDER BY GALLERY_DATE DESC"
     try:
         cursor = conn.cursor()
         result = cursor.execute(query)
