@@ -19,7 +19,6 @@
 		<!-- Icon Font Stylesheet -->
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
 		<!-- Libraries Stylesheet -->
 		<link href="../static/lib/animate/animate.min.css" rel="stylesheet">
@@ -38,10 +37,14 @@
 			a{
 				text-decoration:none;
 			}
-
+<!--			img{-->
+<!--				width: 100%;-->
+<!--				height: 100%;-->
+<!--				object-fit: cover;-->
+<!--			}-->
 			.modal_overlay {
 				width:100%;
-				height: 100vh;
+				height: 100%;
 				position: absolute;
 				left: 0;
 				top: 0;
@@ -61,7 +64,7 @@
 				border-radius: 10px;
 				border: 1px solid rgba(255, 255, 255, 0.18);
 				width: 100%;
-				height: 100vh;
+				height: 100%;
 				position: relative;
 				padding: 10px;
 			}
@@ -78,9 +81,14 @@
 				text-align: center;
 			}
 			.img-wrapper {
-				width: 100%;
-				height: 40vh;
-				object-fit: cover;
+			    width: 100%;
+				height: 100%;
+			}
+			.gallerytop {
+				height:100px;
+				background-color:#00B98E;
+				border-radius: 0 10px 10px 0;
+				width:30%;
 			}
 		</style>
 	</head>
@@ -93,68 +101,38 @@
 	            </div>
 	        </div>
 	        <!-- Spinner End -->
-
+	
 	        <!-- Navbar Start -->
 			{% include navi %}
 	        <!-- Navbar End -->
 
+			<div class="container-fluid header bg-white p-5">
+				<br><br><br>
+			</div>
+
 	        <!-- Header Start -->
-	        <div class="container-fluid header bg-white p-5"><br><br><br>
-<!--	            <div class="row align-items-center flex-column-reverse flex-md-row" style=" bottom: 200;">-->
-<!--	                <div class="col-md-6 p-5 mt-lg-5" style=" bottom: 100;">-->
-<!--	                    <h1 class="display-5 animated fadeIn mb-4" style="float: right;">Gallery for</h1>-->
-<!--	                        <nav aria-label="breadcrumb animated fadeIn">-->
-<!--	                        <ol class="breadcrumb text-uppercase">-->
-<!--&lt;!&ndash;	                            <li class="breadcrumb-item"><a href="#">Home</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;	                            <li class="breadcrumb-item"><a href="#">Pages</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;	                            <li class="breadcrumb-item text-body active" aria-current="page">갤러리로 보기</li>&ndash;&gt;-->
-<!--&lt;!&ndash;								<li class="breadcrumb-item"><a href="#">지도로 보기</a></li>&ndash;&gt;-->
-<!--	                        </ol>-->
-<!--	                    </nav>-->
-<!--	                </div>-->
-<!--	                <div class="col-md-6 animated fadeIn">-->
-<!--	                    <img class="img-fluid" src="../static/_images/landmarker.png" alt="">-->
-<!--	                </div>-->
-<!--	            </div>-->
-	        </div>
+
 	        <!-- Header End -->
 	
 	
 	        <!-- Search Start -->
-	        <div class="container-fluid bg-primary mb-1 wow fadeIn" data-wow-delay="0.1s" style="padding: 15px;">
-               <div class="container">
-                   <div class="row g-1">
-                       <div class="col-md-10">
-                           <div class="row g-1">
-                               <div class="col-md-4">
-                                   <input id="search-bar" type="text" class="form-control border-0 py-3" placeholder="검색할 랜드마크를 입력해주세요" name="search">
-                               </div>
-<!--	                            <div class="col-md-4">-->
-<!--	                                <select class="form-select border-0 py-3">-->
-<!--	                                    <option selected>Property Type</option>-->
-<!--	                                    <option value="1">Property Type 1</option>-->
-<!--	                                    <option value="2">Property Type 2</option>-->
-<!--	                                    <option value="3">Property Type 3</option>-->
-<!--	                                </select>-->
-<!--	                            </div>-->
-<!--	                            <div class="col-md-4">-->
-<!--	                                <select class="form-select border-0 py-3">-->
-<!--	                                    <option selected>Location</option>-->
-<!--	                                    <option value="1">Location 1</option>-->
-<!--	                                    <option value="2">Location 2</option>-->
-<!--	                                    <option value="3">Location 3</option>-->
-<!--	                                </select>-->
-<!--	                            </div>-->
-	                        </div>
-	                    </div>
-	                    <div class="col-md-2">
-                           <button id="search-btn" class="btn btn-dark border-0 w-100 py-3">Search</button>
-                       </div>
-	                </div>
-	            </div>
+	        <div class="gallerytop">
+
+				<div style="float:left; width:72%; padding: 30px 0 0 20px;">
+					<input id="search-bar" list="datalistOptions" type="text" class="form-control border-0 py-2" placeholder="검색..." name="search">
+					<datalist id="datalistOptions">
+					  <option value="경복궁">
+					  <option value="롯데 타워">
+					  <option value="롯데 월드">
+					  <option value="63빌딩">
+					</datalist>
+				</div>
+				<div style="float:right; with:30%; padding: 30px 20px 0 5px;">
+					<button id="search-btn" class="btn btn-dark border-0 w-10 py-2">Search</button>
+				</div>
 	        </div>
 	        <!-- Search End -->
-	
+			<br>
 	        <!-- Gallery List Start -->
 	        <div class="container-xxl py-1">
 	            <div class="container">
@@ -172,7 +150,9 @@
 <!--	                            </li>-->
 	                            <li class="nav-item me-2">
 	                                <a class="btn btn-outline-primary" id="gwrite-btn" data-bs-toggle="pill" data-id="{{user.user_no}}" role="button">Posting</a>
+<!--									<img style="width:30px; height:30px;" src="/static/img/icon-upload.png">-->
 	                            </li>
+
 <!--	                            <li class="nav-item me-0">-->
 <!--	                                <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-3">가까운거리순</a>-->
 <!--	                            </li>-->
@@ -188,10 +168,14 @@
 	                                    <div id="detail" class="position-relative overflow-hidden detail1" data-id="{{d.g_no}}" role="button">
 											<img class="img-fluid img-wrapper" src="/static/gallery_images/{{d.photopath}}">
 	                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-2 py-1 px-3">{{d.hashtag}}</div>
+<!--											<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">-->
+<!--											  Launch demo modal-->
+<!--											</button>-->
+<!--	                                        <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Appartment</div>-->
 	                                    </div>
 	                                    <div class="p-3 pb-0">
 	                                        <h5 class="text-primary mb-2" style="float:left; margin:0px 10px 0px 0px;">{{d.u_name}}</h5>
-											<h8 class="text-primary mb-3" style="float:left; margin:0px 10px 0px 0px;">{{d.u_badge}}</h8>
+											<h8 class="text-primary mb-3" style="float:left; margin:0px 10px 0px 0px;">여 행 중 독 자</h8>
 											<div id="{{d.g_no}}">
 											{% if d.like == 1 %}
 											<a><i id="on" role="button" class="bi bi-heart-fill fs-5 like" style="float:right; color:#e06666;" g_no="{{d.g_no}}" u_no="{{user.user_no}}" onoff="1"></i></a>
@@ -201,25 +185,57 @@
 											</div>
 <!--	                                        <p style="clear:both;"><i class="fa fa-map-marker-alt text-primary me-2"></i><a class="text-dark" href="">서울 용산구 남산공원길 105</a></p>-->
 	                                    </div>
+<!--	                                    <div class="d-flex border-top">-->
+<!--&lt;!&ndash;	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 Sqft</small>&ndash;&gt;-->
+<!--	                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>-->
+<!--	                                        <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>-->
+<!--	                                    </div>-->
 	                                </div>
 	                            </div>
 								{% endfor %}
-<!--	                            <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">-->
-<!--	                                <a class="btn btn-primary py-2 px-4" role="button" id="plus">더보기</a>-->
-<!--	                            </div>-->
+	                            <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
+	                                <a class="btn btn-primary py-2 px-4" role="button" id="plus">더보기</a>
+	                            </div>
 	                        </div>
 	                    </div>
 	                </div>
 	            </div>
 	        </div>
 	        <!-- Property List End -->
-
-	        <!-- Footer Start -->
+	
+	
+	        <!-- Call to Action Start -->
+<!--	        <div class="container-xxl py-5">-->
+<!--	            <div class="container">-->
+<!--	                <div class="bg-light rounded p-3">-->
+<!--	                    <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">-->
+<!--	                        <div class="row g-5 align-items-center">-->
+<!--	                            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">-->
+<!--	                                <img class="img-fluid rounded w-100" src="../static/img/call-to-action.jpg" alt="">-->
+<!--	                            </div>-->
+<!--	                            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">-->
+<!--	                                <div class="mb-4">-->
+<!--	                                    <h1 class="mb-3">Contact With Our Certified Agent</h1>-->
+<!--	                                    <p>Eirmod sed ipsum dolor sit rebum magna erat. Tempor lorem kasd vero ipsum sit sit diam justo sed vero dolor duo.</p>-->
+<!--	                                </div>-->
+<!--	                                <a href="" class="btn btn-primary py-3 px-4 me-2"><i class="fa fa-phone-alt me-2"></i>Make A Call</a>-->
+<!--	                                <a href="" class="btn btn-dark py-3 px-4"><i class="fa fa-calendar-alt me-2"></i>Get Appoinment</a>-->
+<!--	                            </div>-->
+<!--	                        </div>-->
+<!--	                    </div>-->
+<!--	                </div>-->
+<!--	            </div>-->
+<!--	        </div>-->
+	        <!-- Call to Action End11 -->
+	        
+	
+	        <!-- Footer Start1111 -->
 	        {% include footer %}
-	        <!-- Footer End-->
-
+	        <!-- Footer End 11-->
+	
+	
 	        <!-- Back to Top -->
-<!--	        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>-->
+	        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 	    </div>
 	
 		{% include foot %}
@@ -236,6 +252,22 @@
 			</div>
 		</div>
 
+		<div id="modal2" class="modal modal--align-top modal__bg" role="dialog" aria-hidden="true">
+			<div class="modal__dialog">
+				<div class="modal__content">
+					<h1>Big Modal</h1>
+					<h3>This modal is pretty tall.</h3>
+					<p>Selfies normcore four dollar toast four loko listicle artisan. Hoodie Marfa authentic, wayfarers church-key tofu Banksy pop-up Kickstarter Brooklyn heirloom swag synth. Echo Park cray synth mixtape. Tofu gastropub squid readymade, trust fund Wes Anderson DIY PBR 8-bit try-hard +1 Shoreditch lo-fi tote bag.</p>
+					<p><img src="http://unsplash.it/600/300" alt="" /></p>
+					<p>Mumblecore cred selfies fingerstache. Tousled skateboard plaid lo-fi shabby chic salvia, swag Odd Future Etsy art party Austin cronut. Crucifix whatever Pinterest food truck, pickled viral cray 90's DIY chambray keffiyeh biodiesel Vice blog. Cred meh yr tofu.</p>
+					<p>Mumblecore cred selfies fingerstache. Tousled skateboard plaid lo-fi shabby chic salvia, swag Odd Future Etsy art party Austin cronut. Crucifix whatever Pinterest food truck, pickled viral cray 90's DIY chambray keffiyeh biodiesel Vice blog. Cred meh yr tofu.</p>
+					<!-- modal close button -->
+					<a href="" class="modal__close demo-close">
+						<svg class="" viewBox="0 0 24 24"><path d="M19 6.41l-1.41-1.41-5.59 5.59-5.59-5.59-1.41 1.41 5.59 5.59-5.59 5.59 1.41 1.41 5.59-5.59 5.59 5.59 1.41-1.41-5.59-5.59z"/><path d="M0 0h24v24h-24z" fill="none"/></svg>
+					</a>
+				</div>
+			</div>
+		</div>
 	</body>
 	<script type="text/javascript">
 		$.ajaxSetup({

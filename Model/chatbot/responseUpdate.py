@@ -50,7 +50,7 @@ def run(landmark):
 
     for i in data['intents']:
         if i['tag'] == 'address':
-            i['responses'] = ["[" + landmark + "]의 주소는 [" + address + "]입니다. <br> <a href='https://map.naver.com/v5/search/" + address + " " + landmark + "' target='_blank'>여기</a>를 누르시면 위치를 보실 수 있습니다."]
+            i['responses'] = ["[" + landmark + "]의 주소는 [" + address + "]입니다. <br> <a href='https://map.naver.com/v5/search/" + address + " " + landmark + "' target='_blank'>여기</a>를 누르시면 상세한 위치를 보실 수 있습니다."]
         if i['tag'] == 'weather':
             i['responses'] = ["[" + landmark + "]의 날씨 상황은 <br> <a href='https://search.naver.com/search.naver?query=" + weater + "' target='_blank'>여기</a>를 누르시면 날씨를 보실 수 있습니다."]
         if i['tag'] == 'restaurant':
