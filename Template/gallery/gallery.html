@@ -111,22 +111,6 @@
                                <div class="col-md-4">
                                    <input id="search-bar" type="text" class="form-control border-0 py-3" placeholder="검색할 랜드마크를 입력해주세요" name="search">
                                </div>
-<!--	                            <div class="col-md-4">-->
-<!--	                                <select class="form-select border-0 py-3">-->
-<!--	                                    <option selected>Property Type</option>-->
-<!--	                                    <option value="1">Property Type 1</option>-->
-<!--	                                    <option value="2">Property Type 2</option>-->
-<!--	                                    <option value="3">Property Type 3</option>-->
-<!--	                                </select>-->
-<!--	                            </div>-->
-<!--	                            <div class="col-md-4">-->
-<!--	                                <select class="form-select border-0 py-3">-->
-<!--	                                    <option selected>Location</option>-->
-<!--	                                    <option value="1">Location 1</option>-->
-<!--	                                    <option value="2">Location 2</option>-->
-<!--	                                    <option value="3">Location 3</option>-->
-<!--	                                </select>-->
-<!--	                            </div>-->
 	                        </div>
 	                    </div>
 	                    <div class="col-md-2">
@@ -143,21 +127,21 @@
 	                <div class="row g-0 gx-5 align-items-end">
 	                    <div class="col-lg-6">
 	                        <div class="text-start mx-auto mb-1 wow slideInLeft" data-wow-delay="0.1s">
-<!--	                            <h1 class="mb-3">Property Listing</h1>-->
-<!--	                            <p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor ut dolore lorem kasd vero ipsum sit eirmod sit diam justo sed rebum.</p>-->
+								<ul class="nav nav-pills d-inline-flex justify-content-end mb-2">
+									<li class="nav-item me-2">
+										<a class="btn btn-outline-primary op active" data-bs-toggle="pill" id="lately" role="button" op="0">최근순</a>
+									</li>
+									<li class="nav-item me-2">
+										<a class="btn btn-outline-primary op" data-bs-toggle="pill" href="#tab-3" id="pop" role="button" op="1">좋아요순</a>
+									</li>
+								</ul>
 	                        </div>
 	                    </div>
 	                    <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
 	                        <ul class="nav nav-pills d-inline-flex justify-content-end mb-2">
-<!--	                            <li class="nav-item me-2">-->
-<!--	                                <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#tab-1">최근순</a>-->
-<!--	                            </li>-->
 	                            <li class="nav-item me-2">
 	                                <a class="btn btn-outline-primary" id="gwrite-btn" data-bs-toggle="pill" data-id="{{user.user_no}}" role="button">Posting</a>
 	                            </li>
-<!--	                            <li class="nav-item me-0">-->
-<!--	                                <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-3">가까운거리순</a>-->
-<!--	                            </li>-->
 	                        </ul>
 	                    </div>
 	                </div>
@@ -181,14 +165,10 @@
 											<a><i id="off" role="button" class="bi bi-heart fs-5 like" style="float:right; color:#e06666;" g_no="{{d.g_no}}" u_no="{{user.user_no}}" onoff="0"></i></a>
 											{% endif %}
 											</div>
-<!--	                                        <p style="clear:both;"><i class="fa fa-map-marker-alt text-primary me-2"></i><a class="text-dark" href="">서울 용산구 남산공원길 105</a></p>-->
 	                                    </div>
 	                                </div>
 	                            </div>
 								{% endfor %}
-<!--	                            <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">-->
-<!--	                                <a class="btn btn-primary py-2 px-4" role="button" id="plus">더보기</a>-->
-<!--	                            </div>-->
 	                        </div>
 	                    </div>
 	                </div>
@@ -199,18 +179,9 @@
 	        <!-- Footer Start -->
 	        {% include footer %}
 	        <!-- Footer End-->
-
-	        <!-- Back to Top -->
-<!--	        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>-->
 	    </div>
 	
 		{% include foot %}
-		<!-- modal -->
-<!--		<div id="detailModal" class="modal_overlay">-->
-<!--			<div class="modal_window" id="con">-->
-
-<!--			</div>-->
-<!--    	</div>-->
 
 		<div class="modal_overlay" id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   			<div class="modal-dialog modal-xl" id="con" data-id="{{d.like}}">

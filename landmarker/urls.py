@@ -53,6 +53,7 @@ urlpatterns = [
     path('landmarker/gmodify.do', gallery.gmodify, name='gmodify'),
     path('landmarker/gdelete.do', gallery.gdelete, name='gdelete'),
     path('landmarker/gallike.do', gallery.gallike, name='gallike'),
+    path('landmarker/galselect.do', gallery.galselect, name='galselect'),
     path('landmarker/galsearch.do', gallery.galsearch, name='galsearch'),
     path('landmarker/gdetail.do', gallery.gdetail, name='gdetail'),
     path('landmarker/galreply.do', gallery.galreply, name='galreply'),

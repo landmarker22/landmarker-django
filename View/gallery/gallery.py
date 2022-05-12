@@ -16,7 +16,8 @@ import Model.login.login_controller as lc
 
 def gallery(request):
     user = lc.userLoad(request)
-    if(user != 0):
+
+    if user != 0:
         data = gcontroller.select_all(user.get('user_no'), 0)
     else:
         data = gcontroller.select_all(user, 0)
@@ -287,3 +288,23 @@ def galsearch(request):
 
     # return HttpResponse(json.dumps(data), content_type='application/json')
     return render(request, 'gallery/gsearch.html', context)
+
+def galselect(request):
+    user = lc.userLoad(request)
+    if len(request.GET) == 0:
+        op = 0
+    else:
+        op = request.GET['op']
+
+    print('opopopopopopopopopopopopopop', op)
+
+    if user != 0:
+        data = gcontroller.select_all(user.get('user_no'), op)
+    else:
+        data = gcontroller.select_all(user, op)
+    context = {
+        'data': data,
+        'user': user
+    }
+
+    return render(request, 'gallery/gselect.html', context)
