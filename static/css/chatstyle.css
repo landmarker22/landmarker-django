@@ -20,7 +20,7 @@ body {
     font-weight: 200;
     font-size: 50%;
     background: #F1F1F1;
-    border: solid 1px;
+
 }
 
 .chatbox__support {
@@ -29,18 +29,21 @@ body {
     width: 350px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
+    border: 0.25px rgb(137, 134, 134) double;
 }
 
 /* HEADER */
 .chatbox__header {
-    display: flex;
+/*    display: flex;*/
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding: 15px 20px;
+    /*align-items: center;*/
+    justify-content: space-between;
+/*    padding: 15px 20px;*/
+    padding: 4px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
-    height: 70px;
+    width: 100%;
+    height: 60px;
     box-shadow: var(--primaryBoxShadow);
     background-color: #A9BDCE;
 }
@@ -52,6 +55,7 @@ body {
 .chatbox__heading--header {
     font-size: 1.2rem;
     color: black;
+    padding-bottom:0px;
 }
 
 .chatbox__description--header {
@@ -71,7 +75,7 @@ body {
 }
 
 .messages__item--visitor,
-.messages__item--typing {
+.messages__item--typing{
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -89,6 +93,17 @@ body {
     text-align: left;
 }
 
+#chatbox__messages {
+  overflow: auto;
+}
+#chatbox__messages::-webkit-scrollbar {
+  background-color: #B2C7D9;
+  width: 10px;
+}
+#chatbox__messages::-webkit-scrollbar-thumb {
+  background-color: rgb(139, 154, 166   );
+}
+
 /* FOOTER */
 .chatbox__footer {
     display: flex;
@@ -100,7 +115,7 @@ body {
     box-shadow: var(--secondaryBoxShadow);
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
-    margin-top: 20px;
+    margin-top: 0px;
     background-color: white;
 }
 
@@ -130,11 +145,11 @@ body {
     font-size: smaller;
 }
 
-#chatbox__button button,
-#chatbox__button button:focus,
-#chatbox__button button:visited {
+.chatbox__button button,
+.chatbox__button button:focus,
+.chatbox__button button:visited {
     padding: 20px;
-    background: white;
+    background: rgb(0, 185, 142);
     border: none;
     outline: none;
     border-top-left-radius: 50px;
@@ -142,4 +157,6 @@ body {
     border-bottom-left-radius: 50px;
     box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
     cursor: pointer;
+    transform: scale(1);
+    -webkit-transform:scale(1.1);
 }
