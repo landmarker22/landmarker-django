@@ -1,49 +1,72 @@
 import common.oracle_db as odb
 import Model.gallery.gallery_class as gclass
+from datetime import datetime
+from dateutil import tz
 
 
-def select_all(u_no, ob):
+def select_all(u_no, op):
     conn = odb.connect()
     cursor = None
     gallery_list = []
-    if ob == 0:
+    print('쿼리직전 oppppppppppppppppppppppppppppp', op)
+    if op == '0' or op == 0:
         query = 'SELECT * ' \
                 'FROM L_GALLERY ' \
                 'JOIN L_USER USING (USER_NO) ' \
                 'ORDER BY GALLERY_DATE DESC'
+        print(query)
+        try:
+            cursor = conn.cursor()
+            result = cursor.execute(query)
+
+            # 각 행을 하나씩 추출해서, Gallery 클래스 객체 생성함
+            # 행의 컬럼값들을 꺼내서 Gallery 인스턴스의 초기값으로 설정
+            for row in result:
+                print(row)
+                if row[9] is None:
+                    r9 = '여행의 첫걸음'
+                else:
+                    r9 = row[9]
+                # print(type(row[6].strftime('%Y-%m-%d, %H:%M:%S')))
+                row_dict = {'g_no': row[1], 'u_no': row[0], 'content': row[2],
+                            'photopath': row[3], 'hashtag': row[4], 'rcount': row[5],
+                            'date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'u_name': row[8], 'u_badge': r9}
+                # print('row_dict : ', row_dict)
+
+                # ref = gclass.Gallery(row_dict)  # Gallery 객체 생성
+                # print('gclass.Gallery.info(ref) : ', gclass.Gallery.info(ref))
+                # gallery_list.append(ref)
+
+                gallery_list.append(row_dict)
+
+        except Exception as msg:
+            print('Gallery select_all_lately() 에러 발생 : ', msg)
+
     else:
-        query = 'select gallery_no, count(*) c \
-                from l_like \
-                group by gallery_no \
-                ORDER by c desc'
+        query = "SELECT * FROM(SELECT * FROM L_GALLERY T JOIN L_USER U ON U.USER_NO = T.USER_NO) A \
+        RIGHT JOIN (SELECT COUNT(*) CNT, G.GALLERY_NO FROM L_GALLERY G LEFT JOIN L_LIKE L \
+        ON G.GALLERY_NO = L.GALLERY_NO GROUP BY G.GALLERY_NO) B \
+        ON A.GALLERY_NO = B.GALLERY_NO ORDER BY CNT DESC"
+        print(query)
+        try:
+            cursor = conn.cursor()
+            result = cursor.execute(query)
 
-    try:
-        cursor = conn.cursor()
-        result = cursor.execute(query)
+            for row in result:
+                if row[10] is None:
+                    r9 = '여행의 첫걸음'
+                else:
+                    r9 = row[10]
+                # print(type(row[6].strftime('%Y-%m-%d, %H:%M:%S')))
+                row_dict = {'g_no': row[0], 'u_no': row[1], 'content': row[2],
+                            'photopath': row[3], 'hashtag': row[4], 'rcount': row[5],
+                            'date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'u_name': row[9], 'u_badge': r9}
+                # print('row_dict : ', row_dict)
 
-        # 각 행을 하나씩 추출해서, Gallery 클래스 객체 생성함
-        # 행의 컬럼값들을 꺼내서 Gallery 인스턴스의 초기값으로 설정
-        for row in result:
-            if row[9] is None:
-                print("None 발견!!!")
-                r9 = '여행의 첫걸음'
-            else:
-                print("아니네?")
-                r9 = row[9]
-            # print(type(row[6].strftime('%Y-%m-%d, %H:%M:%S')))
-            row_dict = {'g_no': row[1], 'u_no': row[0], 'content': row[2],
-                        'photopath': row[3], 'hashtag': row[4], 'rcount': row[5],
-                        'date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'u_name': row[8], 'u_badge': r9}
-            # print('row_dict : ', row_dict)
+                gallery_list.append(row_dict)
 
-            # ref = gclass.Gallery(row_dict)  # Gallery 객체 생성
-            # print('gclass.Gallery.info(ref) : ', gclass.Gallery.info(ref))
-            # gallery_list.append(ref)
-
-            gallery_list.append(row_dict)
-
-    except Exception as msg:
-        print('Gallery select_all() 에러 발생 : ', msg)
+        except Exception as msg:
+            print('Gallery select_all() 에러 발생 : ', msg)
 
     query = 'SELECT * ' \
             'FROM L_LIKE ' \
@@ -110,9 +133,13 @@ def select_one(g_no, u_no):
         result = cursor.execute(query)
 
         for row in result:
+            if row[9] is None:
+                r9 = '여행의 첫걸음'
+            else:
+                r9 = row[9]
             row_dict = {'u_no': row[0], 'g_no': row[1], 'content': row[2],
                         'photopath': row[3], 'hashtag': row[4], 'rcount': row[5],
-                        'g_date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'gu_name': row[8]}
+                        'g_date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'gu_name': row[8], 'gu_badge': r9}
             # print('detail row_dict : ', row_dict)
 
         #     detail_list.append(row_dict)
@@ -178,9 +205,11 @@ def insert_gallery(dic):
         hashtag = '#' + dic.get('hashtag')
     else:
         hashtag = dic.get('hashtag')
+
     query = "INSERT INTO L_GALLERY VALUES(L_GN_S.NEXTVAL, " + \
-            str(dic['user_no']) + ", '" + str(dic['content']) + "', '" + str(dic['image']) + \
-            "', '" + hashtag + "', DEFAULT, DEFAULT)"
+            str(dic['user_no']) + ", '" + str(dic['content']) + "', '" + str(dic['image']) + "', '" + hashtag + \
+            "', DEFAULT, TO_DATE('" + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "', 'RRRR-MM-DD HH24:MI:SS'))"
+    print(query)
 
     try:
         cursor = conn.cursor()
@@ -200,7 +229,7 @@ def insert_gallery(dic):
 def insert_reply(g_no, u_no, reply):
     conn = odb.connect()
     cursor = None
-    print("??????????????????????????????????????", g_no, u_no, reply)
+
     query = "INSERT INTO L_COMMENT VALUES(L_CN_S.NEXTVAL, " + str(g_no) + ", " + str(u_no) + ", '" + str(
         reply) + "', DEFAULT)"
 

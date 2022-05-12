@@ -2,7 +2,7 @@ $.ajaxSetup({
         headers: { "X-CSRFToken": '{{csrf_token}}' }
     });
 $(function(){
-    $("#gwrite-btn").click(function(){
+    $(document).on('click', '#gwrite-btn', function(){
         var u_no = $("#gwrite-btn").attr('data-id');
         console.log('u_no : ' + u_no);
         if(u_no == ''){
@@ -23,8 +23,7 @@ $(function(){
         }
 
     })
-
-    $(".detail1").click(function(){
+    $(document).on('click', '.detail1', function(){
         var g_no = $(this).attr('data-id');
         console.log('g_no : ' + g_no);
         $.ajax({
@@ -40,18 +39,14 @@ $(function(){
         });
     })
 
-    $('#close_modal').click(function(){
+    $(document).on('click', '#close_modal', function(){
         $("#detailModal").css('display', 'none');
         $(".nav-bar").css('display', 'block');
         document.body.style.overflowY = "visible";
         $(".close_modal").unbind("click");
     })
 
-    $("#plus").click(function(){
-        alert("더보기 버튼 아직 미구현");
-    })
-
-    $(".like").click(function(){
+    $(document).on('click', '.like', function(){
         var g_no = $(this).attr('g_no');
         var u_no = $(this).attr('u_no');
         var onoff = $(this).attr('onoff');
@@ -80,13 +75,13 @@ $(function(){
         }
     })
 
-    $('#search-bar').keypress(function(e){
+    $(document).on('keypress', '#search-bar', function(e){
         if(e.keyCode == 13){
             $('#search-btn').click();
         }
     })
 
-    $('#search-btn').click(function(){
+    $(document).on('click', '#search-btn', function(){
         var search = $('#search-bar').val();
         console.log(search);
 
@@ -104,5 +99,17 @@ $(function(){
         });
     })
 
+    $(document).on('click', '.op', function(){
+        var op = $(this).attr('op');
+        console.log(op);
 
+        $.ajax({
+            url: 'galselect.do',
+            data: {'op': op},
+            type: 'GET',
+            success:function(result){
+                $('#galbox').html(result);
+            }
+        });
+    })
 })
