@@ -1,7 +1,6 @@
 import common.oracle_db as odb
 import Model.gallery.gallery_class as gclass
 from datetime import datetime
-from dateutil import tz
 
 
 def select_all(u_no, op):

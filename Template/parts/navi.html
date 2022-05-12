@@ -1,11 +1,17 @@
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
+<style>
+.modal-body img {
+	width: 300px;
+	padding: 1%;
+}
 
+</style>
 <form id="test"></form>
 <div class="container-fluid nav-bar bg-transparent">
     <nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
-        <a href="http://localhost:8888/landmarker/" class="navbar-brand d-flex align-items-center text-center">
+        <a href="http://www.landmarker.p-e.kr:8888/landmarker/" class="navbar-brand d-flex align-items-center text-center">
             <div class="me-2">
                 <img src="../static/img/Llogo.png" style="width: 180px;">
             </div>
@@ -17,19 +23,19 @@
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto">
-                <a href="http://localhost:8888/landmarker/" class="nav-item nav-link">Home</a>
+                <a href="http://www.landmarker.p-e.kr:8888/landmarker/" class="nav-item nav-link active" style="color:#00B98E;">Home</a>
                 <a href="gallery.do" class="nav-item nav-link">Gallery</a>
                 {% if user.user_no == None %}
                 	<a href="" class="nav-item nav-link" id="aa" data-bs-toggle="modal" data-bs-target="#exampleModal">login</a>
                 {% else %}
-	                <a href="http://localhost:8888/landmarker/mypage.do" class="nav-item nav-link">Mytest</a>
+	                <a href="http://www.landmarker.p-e.kr:8888/landmarker/mypage.do" class="nav-item nav-link">Mypage</a>
  	                {% if user.user_admin == 'Y' %}
-                        <a href="http://localhost:8888/landmarker/admin.do" class="nav-item nav-link">Admin</a>
+                        <a href="http://www.landmarker.p-e.kr:8888/landmarker/admin.do" class="nav-item nav-link">Admin</a>
                     {% endif %}
 	                <a href="logout.do" class="nav-item nav-link" >logout</a>
                 {% endif %}
             </div>
-            <a href="photoSearch.do" class="btn btn-primary px-3 d-none d-lg-flex">사진으로 랜드마크 검색</a>
+            <a href="photoSearch.do" class="btn btn-primary px-3 d-lg-flex nav-link">Search Your Landmark</a>
         </div>
     </nav>
     <div class="modal fade" id="exampleModal" tabindex="-1"
@@ -44,10 +50,10 @@
                 <img style="width: 290px;height: 127px;" src="../static/userImages/landmarker.PNG">
 			</div>
 			<div id="modal-body" class="modal-body" align="center">
-				<a href="https://kauth.kakao.com/oauth/authorize?client_id=53ae3074ebb4e336e3b34b90ab5d2f8c&redirect_uri=http://localhost:8888/landmarker/kakaoLogin.do&response_type=code" class="bt">
+				<a href="https://kauth.kakao.com/oauth/authorize?client_id=53ae3074ebb4e336e3b34b90ab5d2f8c&redirect_uri=http://www.landmarker.p-e.kr:8888/landmarker/kakaoLogin.do&response_type=code" class="bt">
 					<img src="../static/userImages/kakao(eng).png">
 				</a><br>
-				<a href="http://localhost:8888/landmarker/naverlogin.do">
+				<a href="http://www.landmarker.p-e.kr:8888/landmarker/naverlogin.do">
 					<img src="../static/userImages/naver(eng).png">
 				</a><br>
 <!-- 				<a href=" + result.googleUrl + ">
