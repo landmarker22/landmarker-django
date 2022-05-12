@@ -260,13 +260,12 @@ function displayMarker(place) {
 {% csrf_token %}
   <div class="container">
         <div class="chatbox">
+            <div class="chatbox__support">
 
-             <div class="chatbox__support">
-
-                <div class="chatbox__header">
+            <div class="chatbox__header">
                     <img src="/static/images/img.png" style="width:50px; height:50px; padding:5px; margin-right:10px; border-radius: 45%;"/>landmarker bot
-                </div>
-                <div id="chatbox__messages" style="padding: 10px;">
+            </div>
+             <div id="chatbox__messages" style="padding: 10px;">
                     <!-- 메시지 출력 부분 -->
                     <div class="messages__item messages__item--visitor">
                         {{ userName }}님 반갑습니다!
@@ -280,15 +279,14 @@ function displayMarker(place) {
                         <button onclick="webClick();" style="padding:3px; margin-bottom:5px; border: 0.1px solid #ECEDEE; background-color: #F6F7F8;">'날씨 알려줘' </button><br>
                         <button onclick="rebClick();" style="padding:3px; margin-bottom:5px; border: 0.1px solid #ECEDEE; background-color: #F6F7F8;">'맛집 알려줘' </button><br>
                     </div>
-                </div>
+             </div>
                     <div class="chatbox__footer">
-                    <input type="text" id="chattext" placeholder="Write a message..." style="width: 80%;" onkeyup="if(window.event.keyCode==13){sendAsk()}">
+                        <input type="text" id="chattext" placeholder="Write a message..." style="width: 80%;" onkeyup="if(window.event.keyCode==13){sendAsk()}">
 <!--                        <a style="cursor:pointer" onclick="sendAsk()" id="sendbtn" class="chatbox__send&#45;&#45;footer">SEND</a>-->
                         <button style="cursor:pointer" onclick="sendAsk()" id="sendbtn" type="button">전송</button>
                     </div>
-                </div>
-
-            </div>
+             </div>
+        </div>
         <div class="chatbox__button" style="padding-right:30px;" >
             <button>button</button>
         </div>
