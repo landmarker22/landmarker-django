@@ -58,5 +58,6 @@ urlpatterns = [
     path('landmarker/galreply.do', gallery.galreply, name='galreply'),
     path('landmarker/delreply.do', gallery.delreply, name='delreply'),
     path('landmarker/gdetailview.do', gallery.gdetailview, name='gdetailview'),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -528,7 +528,7 @@ $('#delete').click(function(){
                 console.log("갤러리 삭제 에러");
             },
             complete: function() {
-                location.reload();
+                location.href = 'http://localhost:8888/landmarker/mypage.do';
             }
         })
     }
