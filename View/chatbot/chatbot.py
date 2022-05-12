@@ -105,7 +105,9 @@ def chattrain(request):
 def chatanswer(request):
     context = {}
 
-    landmark = "(주)교보문고"
+    from View.photoSearch.photoSearchView.photoSearch_result import pname
+
+    landmark = pname()
     questext = ru.trans(request.GET['questext'])
 
 

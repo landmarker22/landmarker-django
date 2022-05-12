@@ -1,8 +1,6 @@
 import common.oracle_db as odb
 import Model.gallery.gallery_class as gclass
 from datetime import datetime
-from dateutil import tz
-
 
 def select_all(u_no, op):
     conn = odb.connect()
@@ -14,7 +12,7 @@ def select_all(u_no, op):
                 'FROM L_GALLERY ' \
                 'JOIN L_USER USING (USER_NO) ' \
                 'ORDER BY GALLERY_DATE DESC'
-        print(query)
+
         try:
             cursor = conn.cursor()
             result = cursor.execute(query)
@@ -45,7 +43,7 @@ def select_all(u_no, op):
         RIGHT JOIN (SELECT COUNT(*) CNT, G.GALLERY_NO FROM L_GALLERY G LEFT JOIN L_LIKE L \
         ON G.GALLERY_NO = L.GALLERY_NO GROUP BY G.GALLERY_NO) B \
         ON A.GALLERY_NO = B.GALLERY_NO ORDER BY CNT DESC"
-        print(query)
+
         try:
             cursor = conn.cursor()
             result = cursor.execute(query)
@@ -59,7 +57,6 @@ def select_all(u_no, op):
                 row_dict = {'g_no': row[0], 'u_no': row[1], 'content': row[2],
                             'photopath': row[3], 'hashtag': row[4], 'rcount': row[5],
                             'date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'u_name': row[9], 'u_badge': r9}
-                # print('row_dict : ', row_dict)
 
                 gallery_list.append(row_dict)
 
@@ -113,7 +110,6 @@ def select_one(g_no, u_no):
         for row in result:
             row_dict = {'cu_name': row[6], 'content': row[3], 'c_date': row[4].strftime('%Y-%m-%d %H:%M:%S'),
                         'ru_no': row[0], 'c_no': row[1]}
-            # print('comment row_dict : ', row_dict)
 
             comment_list.append(row_dict)
 
@@ -138,9 +134,8 @@ def select_one(g_no, u_no):
             row_dict = {'u_no': row[0], 'g_no': row[1], 'content': row[2],
                         'photopath': row[3], 'hashtag': row[4], 'rcount': row[5],
                         'g_date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'gu_name': row[8], 'gu_badge': r9}
-            # print('detail row_dict : ', row_dict)
 
-        #     detail_list.append(row_dict)
+        #detail_list.append(row_dict)
         detail = row_dict
 
     except Exception as msg:
@@ -378,10 +373,6 @@ def search(s):
                         'photopath': row[3], 'hashtag': row[4], 'rcount': row[5],
                         'date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'u_name': row[8]}
             print('row_dict : ', row_dict)
-
-            # ref = gclass.Gallery(row_dict)  # Gallery 객체 생성
-            # print('gclass.Gallery.info(ref) : ', gclass.Gallery.info(ref))
-            # gallery_list.append(ref)
 
             search_list.append(row_dict)
 

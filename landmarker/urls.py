@@ -43,7 +43,8 @@ urlpatterns = [
     path('landmarker/logout.do', home.logout, name='logout'),
 
     # 이미지 검색
-    path('landmarker/photoSearch.do${sessionScope.loginUser}', photoSearchView.photoSearch, name='photoSearch'),
+    path('landmarker/photoSearch.do', photoSearchView.photoSearch, name='photoSearch'),
+    path('landmarker/photoSearch_ai.do', photoSearchView.photoSearch_ai, name='photoSearch_ai'),
     path('landmarker/photoSearch_result.do', photoSearch_result.photoSearch_result, name='photoSearch_result'),
 
     # 갤러리
