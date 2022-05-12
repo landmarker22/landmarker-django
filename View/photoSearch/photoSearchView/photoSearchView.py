@@ -7,12 +7,15 @@ import os
 from Model.AI.test import run
 from config.settings import BASE_DIR
 from django.http import HttpResponse
+import Model.login.login_controller as lc
 
 def photoSearch(request):
+    user = lc.userLoad(request)
     context = {
         'navi': 'parts/navi.html',
         'foot': 'parts/foot.html',
         'footer': 'parts/footer.html',
+        'user': user
     }
     return render(request, 'photoSearch/photoSearch.html', context)
 

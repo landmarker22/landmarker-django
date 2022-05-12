@@ -20,6 +20,7 @@ from datetime import datetime
 # #
 # #     return time
 
+
 def photoSearch_result(request):
     user = lc.userLoad(request)
     if user != 0:
@@ -69,6 +70,7 @@ def photoSearch_result(request):
         'imgname': imgname,
         'userName': userName,
         'time': time,
+        'user': user
     }
     return render(request, 'photoSearch/photoSearch.html', context)
 
