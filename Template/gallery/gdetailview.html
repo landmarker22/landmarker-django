@@ -297,9 +297,6 @@ img{
             </div>
             <div class="modal_content_write">
                 <div class="feed_name" style="color:#0E2E50; font-size:17px; font-weight: bold; margin:10px;">
-<!--                    <div class="profile_box">-->
-<!--                        <img id="input_profile_image" class="profile_img" src="https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/s1080x2048/165180104_277246477102900_6106347261862438192_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=730e14&_nc_ohc=1sN4d8i7rn8AX-7aKYN&_nc_ht=scontent-ssn1-1.xx&oh=5049b7cd176848e330b0f5ea95f28172&oe=615A08D1">-->
-<!--                    </div>-->
                     <span id="input_user_name"> {{user.user_name}} </span><span style="font-size:14px;">{{detail.gu_badge}}</span>
                 </div>
                 <div style="height: 75px">
@@ -325,18 +322,10 @@ img{
 	        {% include footer %}
 	        <!-- Footer End-->
 
-
-	        <!-- Back to Top -->
-<!--	        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>-->
 	    </div>
 
 		{% include foot %}
-		<!-- modal -->
-<!--		<div id="detailModal" class="modal_overlay">-->
-<!--			<div class="modal_window" id="con">-->
 
-<!--			</div>-->
-<!--    	</div>-->
 	</body>
 <script type="text/javascript">
 $.ajaxSetup({
@@ -528,7 +517,7 @@ $('#delete').click(function(){
                 console.log("갤러리 삭제 에러");
             },
             complete: function() {
-                location.href = 'http://localhost:8888/landmarker/mypage.do';
+                location.href = 'http://www.landmarker.p-e.kr:8888/landmarker/mypage.do';
             }
         })
     }
