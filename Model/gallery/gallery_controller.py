@@ -1,5 +1,7 @@
 import common.oracle_db as odb
 import Model.gallery.gallery_class as gclass
+from datetime import datetime
+from dateutil import tz
 
 
 def select_all(u_no, ob):
@@ -12,10 +14,10 @@ def select_all(u_no, ob):
                 'JOIN L_USER USING (USER_NO) ' \
                 'ORDER BY GALLERY_DATE DESC'
     else:
-        query = 'select gallery_no, count(*) c \
-                from l_like \
-                group by gallery_no \
-                ORDER by c desc'
+        query = "SELECT * FROM(SELECT * FROM L_GALLERY T JOIN L_USER U ON U.USER_NO = T.USER_NO) A \
+        RIGHT JOIN (SELECT COUNT(*) CNT, G.GALLERY_NO FROM L_GALLERY G LEFT JOIN L_LIKE L \
+        ON G.GALLERY_NO = L.GALLERY_NO GROUP BY G.GALLERY_NO ORDER BY CNT DESC) B \
+        ON A.GALLERY_NO = B.GALLERY_NO ORDER BY GALLERY_DATE DESC"
 
     try:
         cursor = conn.cursor()
@@ -180,9 +182,11 @@ def insert_gallery(dic):
         hashtag = '#' + dic.get('hashtag')
     else:
         hashtag = dic.get('hashtag')
+
     query = "INSERT INTO L_GALLERY VALUES(L_GN_S.NEXTVAL, " + \
-            str(dic['user_no']) + ", '" + str(dic['content']) + "', '" + str(dic['image']) + \
-            "', '" + hashtag + "', DEFAULT, DEFAULT)"
+            str(dic['user_no']) + ", '" + str(dic['content']) + "', '" + str(dic['image']) + "', '" + hashtag + \
+            "', DEFAULT, TO_DATE('" + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "', 'RRRR-MM-DD HH24:MI:SS'))"
+    print(query)
 
     try:
         cursor = conn.cursor()
@@ -342,7 +346,7 @@ def search(s):
             'FROM L_GALLERY ' \
             'JOIN L_USER USING (USER_NO)' \
             "WHERE HASHTAG LIKE '%" + s + "%' " \
-            "ORDER BY GALLERY_DATE DESC"
+                                          "ORDER BY GALLERY_DATE DESC"
     try:
         cursor = conn.cursor()
         result = cursor.execute(query)

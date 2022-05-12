@@ -47,10 +47,6 @@ $(function(){
         $(".close_modal").unbind("click");
     })
 
-    $("#plus").click(function(){
-        alert("더보기 버튼 아직 미구현");
-    })
-
     $(".like").click(function(){
         var g_no = $(this).attr('g_no');
         var u_no = $(this).attr('u_no');

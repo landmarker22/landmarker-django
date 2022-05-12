@@ -8,7 +8,7 @@ from django.http import request, JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-
+import common.oracle_db as odb
 import Model.gallery.gallery_class as gclass
 import Model.gallery.gallery_controller as gcontroller
 import Model.login.login_controller as lc
@@ -31,6 +31,91 @@ def gallery(request):
     }
 
     return render(request, 'gallery/gallery.html', context)
+
+# def gallery(request):
+#     user = lc.userLoad(request)
+#     if(user != 0):
+#         u_no = user.get('user_no')
+#     else:
+#         u_no = 0
+#
+#     # op = request.GET['option']
+#     #
+#     # if op == 0:
+#     #     query = 'SELECT * ' \
+#     #             'FROM L_GALLERY ' \
+#     #             'JOIN L_USER USING (USER_NO) ' \
+#     #             'ORDER BY GALLERY_DATE DESC'
+#     # else:
+#     #     query = 'select gallery_no, count(*) c \
+#     #                 from l_like \
+#     #                 group by gallery_no \
+#     #                 ORDER by c desc'
+#     query = 'SELECT * ' \
+#             'FROM L_GALLERY ' \
+#             'JOIN L_USER USING (USER_NO) ' \
+#             'ORDER BY GALLERY_DATE DESC'
+#
+#     conn = odb.connect()
+#     cursor = None
+#     gallery_list = []
+#
+#     try:
+#         cursor = conn.cursor()
+#         result = cursor.execute(query)
+#
+#         for row in result:
+#             if row[9] is None:
+#                 r9 = '여행의 첫걸음'
+#             else:
+#                 r9 = row[9]
+#
+#             row_dict = {'g_no': row[1], 'u_no': row[0], 'content': row[2],
+#                         'photopath': row[3], 'hashtag': row[4], 'rcount': row[5],
+#                         'date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'u_name': row[8], 'u_badge': r9}
+#
+#             gallery_list.append(row_dict)
+#
+#     except Exception as msg:
+#         print('gallery() 에러 발생 : ', msg)
+#
+#     query = 'SELECT * ' \
+#             'FROM L_LIKE ' \
+#             'WHERE USER_NO = ' + str(u_no)
+#
+#     try:
+#         cursor = conn.cursor()
+#         like_result = cursor.execute(query).fetchall()
+#
+#     except Exception as msg:
+#         print('gallery() like query 에러 발생 : ', msg)
+#
+#     finally:
+#         cursor.close()
+#         odb.close(conn)
+#
+#     if int(u_no) > 0:
+#         for g in gallery_list:
+#             for l in like_result:
+#                 if l[1] == g['g_no']:
+#                     g['like'] = 1
+#                     break
+#                 else:
+#                     g['like'] = 0
+#     else:
+#         for g in gallery_list:
+#             g['like'] = 0
+#
+#     context = {
+#         'head': 'parts/head.html',
+#         'navi': 'parts/navi.html',
+#         'foot': 'parts/foot.html',
+#         'footer': 'parts/footer.html',
+#         'data': gallery_list,
+#         'user': user
+#     }
+#
+#     return render(request, 'gallery/gallery.html', context)
 
 
 def gdetailview(request):
