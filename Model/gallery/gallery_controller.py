@@ -19,8 +19,6 @@ def select_all(u_no, op):
             cursor = conn.cursor()
             result = cursor.execute(query)
 
-            # 각 행을 하나씩 추출해서, Gallery 클래스 객체 생성함
-            # 행의 컬럼값들을 꺼내서 Gallery 인스턴스의 초기값으로 설정
             for row in result:
                 print(row)
                 if row[9] is None:
