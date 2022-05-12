@@ -18,10 +18,15 @@ def select_all(u_no, op):
             result = cursor.execute(query)
 
             for row in result:
+                print(row)
+                if row[9] is None:
+                    r9 = ''
+                else:
+                    r9 = row[9]
                 # print(type(row[6].strftime('%Y-%m-%d, %H:%M:%S')))
                 row_dict = {'g_no': row[1], 'u_no': row[0], 'content': row[2],
                             'photopath': row[3], 'hashtag': row[4], 'rcount': row[5],
-                            'date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'u_name': row[8], 'u_badge': row[9]}
+                            'date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'u_name': row[8], 'u_badge': r9}
                 # print('row_dict : ', row_dict)
 
                 # ref = gclass.Gallery(row_dict)  # Gallery 객체 생성
@@ -44,10 +49,14 @@ def select_all(u_no, op):
             result = cursor.execute(query)
 
             for row in result:
+                if row[10] is None:
+                    r9 = ''
+                else:
+                    r9 = row[10]
                 # print(type(row[6].strftime('%Y-%m-%d, %H:%M:%S')))
                 row_dict = {'g_no': row[0], 'u_no': row[1], 'content': row[2],
                             'photopath': row[3], 'hashtag': row[4], 'rcount': row[5],
-                            'date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'u_name': row[9], 'u_badge': row[10]}
+                            'date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'u_name': row[9], 'u_badge': r9}
 
                 gallery_list.append(row_dict)
 
@@ -118,10 +127,13 @@ def select_one(g_no, u_no):
         result = cursor.execute(query)
 
         for row in result:
-
+            if row[9] is None:
+                r9 = ''
+            else:
+                r9 = row[9]
             row_dict = {'u_no': row[0], 'g_no': row[1], 'content': row[2],
                         'photopath': row[3], 'hashtag': row[4], 'rcount': row[5],
-                        'g_date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'gu_name': row[8], 'gu_badge': row[9]}
+                        'g_date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'gu_name': row[8], 'gu_badge': r9}
 
         #detail_list.append(row_dict)
         detail = row_dict
@@ -359,7 +371,7 @@ def search(s):
             print(type(row[6].strftime('%Y-%m-%d, %H:%M:%S')))
             row_dict = {'g_no': row[1], 'u_no': row[0], 'content': row[2],
                         'photopath': row[3], 'hashtag': row[4], 'rcount': row[5],
-                        'date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'u_name': row[8], 'u_badge': row[9]}
+                        'date': row[6].strftime('%Y-%m-%d %H:%M:%S'), 'u_name': row[8]}
             print('row_dict : ', row_dict)
 
             search_list.append(row_dict)

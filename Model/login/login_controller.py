@@ -93,7 +93,8 @@ def selectUser(user_no):
 
 def userLoad(request):
     try:
-        user = selectUser(request.session['user_no'])
+        # user = selectUser(request.session['user_no'])
+        user = selectUser('8')
         return user
     except KeyError:
         return 0
