@@ -27,7 +27,6 @@ $(function(){
     $(".detail1").click(function(){
         var g_no = $(this).attr('data-id');
         console.log('g_no : ' + g_no);
-        console.log('u_no : ' );
         $.ajax({
             url: 'gdetail.do',
             data:{'g_no': g_no},

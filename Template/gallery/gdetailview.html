@@ -18,7 +18,7 @@
 
 		<!-- Icon Font Stylesheet -->
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
 
 		<!-- Libraries Stylesheet -->
 		<link href="../static/lib/animate/animate.min.css" rel="stylesheet">
@@ -33,11 +33,16 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <!--		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />-->
+<!--		<script src="../static/js/gallery.js"></script>-->
 <script type="text/javascript">
+$.ajaxSetup({
+    headers: { "X-CSRFToken": '{{csrf_token}}' }
+  });
+
 $(function(){
     $('#close_modal').click(function(){
         $("#detailModal").css('display', 'none');
-        $("#navi").css('display', 'block');
+        $(".nav-bar").css('display', 'block');
         document.body.style.overflowY = "visible";
         $(".close_modal").unbind("click");
     })
@@ -47,89 +52,189 @@ $(document).on("click", function(e){
     if( $("#detailModal").is(e.target)) {
         $("#detailModal").css({ display:"none" });
         document.body.style.overflowY = "visible";
-        $("#navi").css('display', 'block');
+        $(".nav-bar").css('display', 'block');
     }
 });
 
 $(".dlike").click(function(){
+	alert('좋눌');
     var g_no = $(this).attr('g_no');
     var u_no = $(this).attr('u_no');
     var onoff = $(this).attr('onoff');
     console.log('g_no : ' + g_no + ', u_no : ' + u_no + ', onoff : ', onoff);
+    if(u_no == 0) {
+        alert('로그인이 필요합니다.');
+    }else{
+        $.ajax({
+            url: 'gallike.do',
+            data:{'g_no': g_no,
+                  'u_no': u_no,
+                  'onoff': onoff},
+            success: function(result){
+                location.reload();
+<!--                $('#con').html(result);-->
+            }
+        });
+        if(onoff=='1'){
+            $(this).attr('onoff', '0');
+            $(this).attr('class', 'bi bi-heart fs-5 dlike');
+            $(this).css('color', '#e06666');
+            $('div#'+g_no+' > a > i').attr('onoff', '0');
+            $('div#'+g_no+' > a > i').attr('class', 'bi bi-heart fs-5 like');
+            $('div#'+g_no+' > a > i').css('color', '#e06666');
+        }else{
+            $(this).attr('onoff', '1');
+            $(this).attr('class', 'bi bi-heart-fill fs-5 dlike');
+            $(this).css('color', '#e06666');
+            $('div#'+g_no+' > a > i').attr('onoff', '1');
+            $('div#'+g_no+' > a > i').attr('class', 'bi bi-heart-fill fs-5 like');
+            $('div#'+g_no+' > a > i').css('color', '#e06666');
+        }
+    }
+})
+
+$('#reply_text').keypress(function(e){
+    if(e.keyCode == 13){
+        $('#reply_btn').click();
+    }
+})
+
+$('#reply_btn').click(function(){
+    var reply = $('#reply_text').val();
+    var g_no = $('.dlike').attr('g_no');
+    var u_no = $('.dlike').attr('u_no');
+    console.log('g_no : ' + g_no + ', u_no : ' + u_no);
+    console.log(reply);
+    if(u_no == ''){
+        alert('로그인이 필요합니다.');
+    }else{
+        $.ajax({
+            url: 'galreply.do',
+            type: 'post',
+            data: {'g_no': g_no,
+                   'u_no': u_no,
+                   'reply': reply},
+            success:function(result){
+                $('#con').html(result);
+            }
+        });
+    }
+})
+
+$('.del-btn').click(function(){
+    var c_no = $(this).attr('c_no');
+    console.log('c_no : ' + c_no);
+    var g_no = $('.dlike').attr('g_no');
+    console.log('g_no : ' + g_no);
+
     $.ajax({
-        url: 'gallike.do',
-        data:{'g_no': g_no,
-              'u_no': u_no,
-              'onoff': onoff},
-        success: function(result){
+        url: 'delreply.do',
+        type: 'post',
+        data: {
+            'c_no': c_no,
+            'g_no': g_no
+        },
+        success:function(result){
             $('#con').html(result);
         }
     });
-    if(onoff=='1'){
-        $(this).attr('onoff', '0');
-        $(this).attr('class', 'bi bi-heart fs-5 dlike');
-        $(this).css('color', '#e06666');
-        $('div#'+g_no+' > a > i').attr('onoff', '0');
-        $('div#'+g_no+' > a > i').attr('class', 'bi bi-heart fs-5 like');
-        $('div#'+g_no+' > a > i').css('color', '#e06666');
-    }else{
-        $(this).attr('onoff', '1');
-        $(this).attr('class', 'bi bi-heart-fill fs-5 dlike');
-        $(this).css('color', '#e06666');
-        $('div#'+g_no+' > a > i').attr('onoff', '1');
-        $('div#'+g_no+' > a > i').attr('class', 'bi bi-heart-fill fs-5 like');
-        $('div#'+g_no+' > a > i').css('color', '#e06666');
+})
+
+$('#modify').click(function(){
+    var img_path = $('#img').attr('src');
+    console.log(img_path);
+    $('#modal_add_feed_content').css({
+        display : 'flex'
+    });
+    $('.modal_image_upload_content').css({
+        "background-image": "url(" + img_path + ")",
+        "outline": "none",
+        "background-size": "contain",
+        "background-repeat" : "no-repeat",
+        "background-position" : "center"
+    });
+    $('#galde').css({
+        display: 'none'
+    })
+})
+
+$('#button_write_feed').on('click', ()=>{
+        const content = $('#input_content').val();
+        const hashtag = $('#input_hashtag').val();
+        var g_no = $('.dlike').attr('g_no');
+
+        let fd = new FormData();
+
+        fd.append('content', content);
+        fd.append('hashtag', hashtag);
+        fd.append('g_no', g_no);
+
+        if(content.length <= 0)
+        {
+            alert("설명을 입력하세요");
+        }
+        else if(hashtag.length <= 0)
+        {
+            alert("해시태그를 입력하세요");
+        }
+        else{
+            writeFeed(fd);
+            console.log(files[0]);
+        }
+    });
+
+    function writeFeed(fd) {
+        $.ajax({
+            url: "gmodify.do",
+            data: fd,
+            method: "POST",
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                $("#detailModal").css({ display:"none" });
+                document.body.style.overflowY = "visible";
+                $(".nav-bar").css('display', 'block');
+            },
+            error: function (request, status, error) {
+                console.log("에러");
+                console.log(request);
+                console.log(status);
+                console.log(error);
+            },
+            complete: function() {
+                location.reload();
+            }
+        })
+    };
+
+$('#delete').click(function(){
+    var g_no = $('.dlike').attr('g_no');
+    var tf = confirm('증말 삭제하시겠습니까?');
+
+    if(tf == true){
+        $.ajax({
+            url: "gdelete.do",
+            data: {'g_no': g_no},
+            method: "POST",
+            success: function (data) {
+                $("#detailModal").css({ display:"none" });
+                document.body.style.overflowY = "visible";
+                $(".nav-bar").css('display', 'block');
+            },
+            error: function (request, status, error) {
+                console.log("갤러리 삭제 에러");
+            },
+            complete: function() {
+                location.reload();
+            }
+        })
     }
 })
 </script>
-
-<!--<div class="modal_title">-->
-<!--    <div class="modal_title_side"></div>-->
-<!--&lt;!&ndash;        <div>{{data.g_no}}게시물</div>&ndash;&gt;-->
-<!--    <div class="modal_title_side" role="button" id="close_modal">-->
-<!--        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">-->
-<!--          <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>-->
-<!--          <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>-->
-<!--        </svg>-->
-<!--    </div>-->
-<!--</div>-->
-<!--<div style="display: flex;">-->
-<!--    <div style="width: 400px; height: 500px;">-->
-<!--        <div class="border di position-relative overflow-hidden" style="width: 365px; margin: 11px; height: 500px;">-->
-<!--            <img class="img-fluid" src="../static/img/{{detail.photopath}}" style="width: 100%; height: 100%;">-->
-<!--	        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-2 py-1 px-3">{{detail.hashtag}}</div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div style="width: 400px;">-->
-<!--        <div class="" style="width: 365px; margin: 11px; height: 500px;">-->
-<!--            <div class="d-block h5 mb-2">{{detail.gu_name}}</div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--<div>-->
-<!--    <div >-->
-<!--        댓글 {{c_count}}개-->
-<!--    </div>-->
-<!--    <hr>-->
-<!--    {% for c in comment %}-->
-
-<!--    <div id="cuser" style="float: left;" class="row-1 col-12">-->
-<!--        <div class="col-2">{{c.cu_name}}</div>-->
-<!--        <div class="col-10 ">{{c.content}}</div>-->
-<!--    </div>-->
-<!--    <br>-->
-<!--&lt;!&ndash;    <div id="comment">&ndash;&gt;-->
-<!--&lt;!&ndash;        {{c.content}}&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-
-<!--    {% endfor %}-->
-<!--</div>-->
-
 <style>
-a:link { color: red; text-decoration: none;}
+<!--a:link { color: red; text-decoration: none;}-->
 a:visited { color: black; text-decoration: none;}
-a:hover { color: blue; text-decoration: underline;}
+<!--a:hover { color: blue; text-decoration: underline;}-->
 textarea, button{vertical-align: middle;}
 img{
     width: 100%;
@@ -137,7 +242,8 @@ img{
     object-fit: cover;
 }
 .box1 {
-   float:left; width:65%; height: 900px;}
+   float:left; width:65%; height: 900px;
+}
 .box2 {
       float:right; width:35%; height: 900px; padding-top: 1%;}
 .block1 {
@@ -145,6 +251,7 @@ img{
         padding-right: 2%;
         margin-bottom: -5px;
         font-weight: 600;
+        font-size: 25px;
         }
 .block2{
     -ms-overflow-style: none;
@@ -152,7 +259,7 @@ img{
     padding-right: 2%;
     height: 650px;
     overflow-y: auto;
-    font-size: 13px;
+    font-size: 20px;
 }
 .block2::-webkit-scrollbar{
     display:none;
@@ -162,7 +269,7 @@ img{
     padding-right: 2%;
     padding-bottom: 15%;
     margin-top: -5px;
-    height: 90px;
+    height: 70px;
 }
 .block4 {
     padding-left: 2%;
@@ -180,56 +287,131 @@ img{
     margin-right: 5px;
     font-weight: bold;
 }
+    .modal {
+        display: none;
+    }
 
+    .modal_window {
+        background: white;
+        backdrop-filter: blur(13.5px);
+        -webkit-backdrop-filter: blur(13.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        width: 800px;
+        height: 600px;
+        position: relative;
+    }
+
+    .modal_title{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-weight: bold;
+        font-size: 20px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+    }
+
+    .modal_title_side{
+        margin: 5px;
+        flex: 0 0 40px;
+        text-align: center;
+    }
+
+    .modal_image_upload{
+        outline: 2px dashed black ;
+        outline-offset:-10px;
+        transition: all .15s ease-in-out;
+        width: 800px;
+        height: 100%;
+        text-align: center;
+        line-height: 548px;
+    }
+
+    .modal_image_upload_content{
+        outline: 2px dashed black ;
+        outline-offset:-10px;
+        text-align: center;
+        transition: all .15s ease-in-out;
+        width:500px;
+        height: 548px;
+    }
+
+    .modal_image_content{
+        display: flex;
+        flex-direction: row;
+    }
+
+    .modal_content_write{
+        display: flex;
+        flex-direction: column;
+        border-left: 1px solid rgba(0, 0, 0, 0.18);;
+    }
+
+    .feed_content_textarea{
+        resize: none;
+        width: 294px;
+        border: none;
+    }
+
+    .feed_name_txt {
+        font-size: 14px;
+        padding: 0px 10px;
+        font-weight: bold;
+    }
+
+    .feed_content_textarea{
+        resize: none;
+        width: 294px;
+        border: none;
+    }
+
+	a{
+		text-decoration:none;
+	}
+	img{
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.modal_overlay {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
+		display: none;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		background: rgba(0, 0, 0, 0.8);
+		backdrop-filter: blur(1.5px);
+		-webkit-backdrop-filter: blur(1.5px);
+	}
+
+	.modal_window {
+		background: white;
+		backdrop-filter: blur(13.5px);
+		-webkit-backdrop-filter: blur(13.5px);
+		border-radius: 10px;
+		border: 1px solid rgba(255, 255, 255, 0.18);
+		width: 800px;
+		height: 600px;
+		position: relative;
+		padding: 10px;
+	}
+	.modal_title{
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		font-weight: bold;
+		font-size: 20px;
+	}
+
+	.modal_title_side{
+		flex: 0 0 40px;
+		text-align: center;
+	}
 </style>
-		<style>
-			a{
-				text-decoration:none;
-			}
-			img{
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-			}
-			.modal_overlay {
-				width: 100%;
-				height: 100%;
-				position: absolute;
-				left: 0;
-				top: 0;
-				display: none;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				background: rgba(0, 0, 0, 0.8);
-				backdrop-filter: blur(1.5px);
-				-webkit-backdrop-filter: blur(1.5px);
-			}
-
-			.modal_window {
-				background: white;
-				backdrop-filter: blur(13.5px);
-				-webkit-backdrop-filter: blur(13.5px);
-				border-radius: 10px;
-				border: 1px solid rgba(255, 255, 255, 0.18);
-				width: 800px;
-				height: 600px;
-				position: relative;
-				padding: 10px;
-			}
-			.modal_title{
-				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
-				font-weight: bold;
-				font-size: 20px;
-			}
-
-			.modal_title_side{
-				flex: 0 0 40px;
-				text-align: center;
-			}
-		</style>
 	</head>
 	<body>
 	    <div class="container-xxl bg-white p-0">
@@ -245,74 +427,108 @@ img{
 			{% include navi %}
 	        <!-- Navbar End -->
 
-	        <!-- Header Start -->
-	        <div class="container-fluid header bg-white p-0">
-	            <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
-	                <div class="col-md-6 p-5 mt-lg-5">
-	                    <h1 class="display-5 animated fadeIn mb-4">Gallery</h1>
-	                        <nav aria-label="breadcrumb animated fadeIn">
-	                        <ol class="breadcrumb text-uppercase">
-<!--	                            <li class="breadcrumb-item"><a href="#">Home</a></li>-->
-<!--	                            <li class="breadcrumb-item"><a href="#">Pages</a></li>-->
-	                            <li class="breadcrumb-item text-body active" aria-current="page">갤러리로 보기</li>
-								<li class="breadcrumb-item"><a href="#">지도로 보기</a></li>
-	                        </ol>
-	                    </nav>
-	                </div>
-	                <div class="col-md-6 animated fadeIn">
-	                    <img class="img-fluid" src="../static/img/header.jpg" alt="">
-	                </div>
-	            </div>
-	        </div>
-	        <!-- Header End -->
+            <div class="container-fluid header bg-white p-5"><br><br><br></div>
 
 
 	        <!-- Gallery List Start -->
 	        <div class="container-xxl py-1">
 	            <div class="container">
-	                <div class="modal-content">
-      <div class="modal-body" style="margin: -16px; ">
-          <div class="box1">
-              <img src="https://ifh.cc/g/sL3jLT.jpg">
-              <div class="bg-primary rounded text-white position-absolute start-1 top-0 m-2 py-1 px-3">{{detail.hashtag}}</div>
-          </div>
-          <div class="box2">
-            <div class="block1">{{detail.gu_name}}<a href="#"><i class="bi bi-three-dots" style="float: right;"></i></a></div>
+	                <div class="modal-content" id="galde">
+    <div class="modal-body" style="margin: -16px;">
+        <div class="box1">
+            <img id="img" src="/static/gallery_images/{{detail.photopath}}">
+            <div class="bg-primary rounded text-white position-absolute start-1 top-0 m-2 py-1 px-3">
+                {{detail.hashtag}}
+            </div>
+        </div>
+        <div class="box2">
+            <div class="block1">{{detail.gu_name}}
+                {% if detail.u_no == user.user_no %}
+                <i id="delete" class="bi bi-trash3" style="float: right;" role="button"></i>
+                <i id="modify" class="bi bi-pencil-square" style="float: right; margin-right: 0.5em;" role="button"></i>
+                {% endif %}
+            </div>
             <hr style="height: 0.5px;">
             <div class="block2">
-                <div class="detail_nick">{{detail.gu_name}}</div>{{detail.content}}
+                <div class="detail_nick">{{detail.gu_name}}</div>
+                {{detail.content}}
                 <br><br>
                 {% for c in comment %}
-                <div class="detail_nick">{{c.cu_name}}</div>{{c.content}}<br><br>
+                <div class="detail_nick">{{c.cu_name}}</div>{{c.content}}
+                {% if c.ru_no == user.user_no %}
+                <button c_no="{{c.c_no}}" type="button" class="btn btn-link del-btn" style="float: right; font-size: 15px;">삭제</button>
+                {% endif %}
+                <br><br>
                 {% endfor %}
             </div>
             <hr style="height: 0.5px;">
             <div class="block3">
-              <div class="icons">
-                  {% if like == 1 %}
-                  <div style="font-size: 15px;"><i g_no="{{detail.g_no}}" u_no="{{7}}" onoff="1" role="button" class="bi bi-heart-fill fs-5 dlike" style="color:#e06666; margin-right:10px;"></i>좋아요 {{like_count}}개</div>
-                  {% else %}
-                  <div style="font-size: 15px;"><i g_no="{{detail.g_no}}" u_no="{{7}}" onoff="0" role="button" class="bi bi-heart fs-5 dlike" style="color:#e06666; margin-right:10px;"></i>좋아요 {{like_count}}개</div>
-                  {% endif %}
-<!--                  <i class="bi bi-chat icons"></i>-->
-<!--                  <i class="bi bi-send icons"></i>-->
-                  <!--<i class="bi bi-bookmark icons" style="float: right;"></i>-->
-              </div>
-<!--              <div style="font-size: 15px; font-weight: 600; padding-bottom: 1%;">좋아요 {{like_count}}개</div>-->
-              <div style="font-size: 10px; color: gray;">{{detail.g_date}}</div>
+                <div class="icons">
+                    {% if like == 1 %}
+                    <div style="font-size: 20px;">
+                        <i g_no="{{detail.g_no}}" u_no="{{user.user_no}}" onoff="1" role="button" class="bi bi-heart-fill fs-5 dlike" style="color:#e06666; margin-right:10px;"></i>좋아요 {{like_count}}개
+                    </div>
+                    {% else %}
+                    <div style="font-size: 20px;">
+                        <i g_no="{{detail.g_no}}" u_no="{{user.user_no}}" onoff="0" role="button" class="bi bi-heart fs-5 dlike" style="color:#e06666; margin-right:10px;"></i>좋아요 {{like_count}}개
+                    </div>
+                    {% endif %}
+                    <!--                  <i class="bi bi-chat icons"></i>-->
+                    <!--                  <i class="bi bi-send icons"></i>-->
+                    <!--<i class="bi bi-bookmark icons" style="float: right;"></i>-->
+                </div>
+                <!--              <div style="font-size: 15px; font-weight: 600; padding-bottom: 1%;">좋아요 {{like_count}}개</div>-->
+                <div style="font-size: 18px; color: gray;">{{detail.g_date}}</div>
             </div>
             <hr style="height: 0.5px;">
-            <div class="row-auto mb-5">
-                <div class="col-10" style="float: left; width: 78%;" >
-					<textarea class="form-control" id="input_text" rows="1" style="border: none; resize: none; font-size: 15px;"  placeholder="댓글 달기..."></textarea>
-				</div>
-                <div class="col-auto">
-                	<button type="submit" disabled="true" id="TestBtn" class="btn btn-link" style="float: right; font-size: 15px;">게시</button>
+            <div class="block4">
+                <div style="float: left; width: 75%;"><textarea class="form-control" id="reply_text" rows="1"
+                                                                style="border: none; resize: none; font-size: 20px;"
+                                                                placeholder="댓글 달기..."></textarea></div>
+                <div style="float: right; display: inline;">
+                    <div class="col-auto">
+                        <button type="button" id="reply_btn" class="btn btn-link"
+                                style="float: right; font-size: 20px;">게시
+                        </button>
+                    </div>
                 </div>
-              </div>
             </div>
-      </div>
-      </div>
+        </div>
+    </div>
+</div>
+<div id="modal_add_feed_content" class="modal-content modal modal_overlay_content">
+    <div class="modal-body" style="margin: -16px;">
+        <div class="modal_title">
+            <div class="modal_title_side"></div>
+            <div style="margin: 5px"> 게시물 수정 </div>
+            <div class="modal_title_side">
+            </div>
+        </div>
+        <div class="modal_image_content">
+            <div id="input_image" class="modal_image_upload_content">
+
+            </div>
+            <div class="modal_content_write">
+                <div class="feed_name">
+<!--                    <div class="profile_box">-->
+<!--                        <img id="input_profile_image" class="profile_img" src="https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/s1080x2048/165180104_277246477102900_6106347261862438192_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=730e14&_nc_ohc=1sN4d8i7rn8AX-7aKYN&_nc_ht=scontent-ssn1-1.xx&oh=5049b7cd176848e330b0f5ea95f28172&oe=615A08D1">-->
+<!--                    </div>-->
+                    <span id="input_user_name" class="feed_name_txt"> {{user.user_name}} </span>
+                </div>
+                <div style="height: 75px">
+                    <textarea id="input_hashtag" class="feed_content_textarea form-control col-sm-5" rows="2">{{detail.hashtag}}</textarea>
+                </div>
+                <div style="height: 380px">
+                    <textarea id="input_content" class="feed_content_textarea form-control col-sm-5" rows="10">{{detail.content}}</textarea>
+                </div>
+                <div style="width: 100%; text-align: center">
+                    <button id="button_write_feed" type="button" class="btn btn-primary" style="width: 268px"> 공유하기</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 </div>
 
 	            </div>
@@ -351,7 +567,7 @@ img{
 
 
 	        <!-- Back to Top -->
-	        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+<!--	        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>-->
 	    </div>
 
 		{% include foot %}
